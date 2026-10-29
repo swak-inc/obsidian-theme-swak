@@ -751,7 +751,7 @@ body {
   --swak-hr-space-after: max(0px, calc(2rem - var(--p-spacing)));
 }
 
-/* 見出しの文字・帯内余白は共通定義を使い、前後の空行だけを補正する */
+/* CodeMirrorの行には上下marginを付けず、余白を計測可能な行ボックス内に収める */
 .markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-header {
   margin-block: 0 !important;
 }
@@ -760,26 +760,22 @@ body {
   padding-block: 0 !important;
 }
 
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:has(> br:only-child) + .HyperMD-header {
-  margin-block-start: calc(var(--heading-spacing) - var(--p-spacing)) !important;
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:has(> br:only-child):has(+ .HyperMD-header) {
+  padding-block-start: max(0px, calc(var(--heading-spacing) - var(--p-spacing)));
 }
 
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:has(> br:only-child) + .cm-line:has(> br:only-child) + .HyperMD-header {
-  margin-block-start: max(0px, calc(var(--heading-spacing) - 2 * var(--p-spacing))) !important;
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:has(> br:only-child) + .cm-line:has(> br:only-child):has(+ .HyperMD-header) {
+  padding-block-start: max(0px, calc(var(--heading-spacing) - 2 * var(--p-spacing)));
 }
 
-/* 文頭の空行は編集中だけ高さを持たせ、先頭見出しに段落用の余白を加えない */
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:first-child:not(.cm-active):has(> br:only-child):has(+ .HyperMD-header) {
-  line-height: 0 !important;
-}
-
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:first-child:has(> br:only-child) + .HyperMD-header {
-  margin-block-start: 0 !important;
+/* 文頭も入力可能な空行の高さを保ち、選択状態によって高さを変えない */
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:first-child:has(> br:only-child):has(+ .HyperMD-header) {
+  padding-block-start: 0;
 }
 
 /* 表・数式の後は通常の見出し前余白を使い、ほかの埋め込みの余白とは重ねない */
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > :is(.HyperMD-header, .hr, .cm-embed-block:not(.cm-table-widget, .math-block)) + .cm-line:has(> br:only-child) + .HyperMD-header {
-  margin-block-start: 0 !important;
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > :is(.HyperMD-header, .hr, .cm-embed-block:not(.cm-table-widget, .math-block)) + .cm-line:has(> br:only-child):has(+ .HyperMD-header) {
+  padding-block-start: 0;
 }
 
 .markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-header + .cm-line:not(.HyperMD-header):not(:has(> br:only-child)) {
@@ -797,10 +793,6 @@ body {
 
 .markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-header-3 + .HyperMD-list-line {
   padding-block-start: max(0px, calc(var(--p-spacing) - 10px + var(--list-spacing))) !important;
-}
-
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-header-3 + .cm-line:has(> br:only-child) {
-  line-height: max(1px, calc(var(--p-spacing) - 10px)) !important;
 }
 
 /* 折りたたみ枠自身の余白と、見出し・空行の余白を重複させない */
@@ -895,13 +887,6 @@ body {
   text-decoration: none;
 }
 
-/* 同じリスト内の空行は閲覧時に畳まれる。選択中の空行は通常の編集高さを保つ */
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-list-line:has(> .cm-formatting-list-ul) + .cm-line:not(.cm-active):has(> br:only-child):has(+ .HyperMD-list-line > .cm-formatting-list-ul),
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-list-line:has(> .cm-formatting-list-ol) + .cm-line:not(.cm-active):has(> br:only-child):has(+ .HyperMD-list-line > .cm-formatting-list-ol),
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-task-line:not(:has(> .cm-formatting-list-ol)) + .cm-line:not(.cm-active):has(> br:only-child):has(+ .HyperMD-task-line):not(:has(+ .HyperMD-task-line > .cm-formatting-list-ol)) {
-  line-height: 1px !important;
-}
-
 /* スペース2個・4個・タブの違いではなく、解析済みの階層を基準に字下げする */
 .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-2,
 .markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line-2 + .math-block {
@@ -974,8 +959,4 @@ body {
 
 .markdown-source-view.mod-cm6.is-live-preview .cm-content > .HyperMD-codeblock {
   line-height: calc(var(--font-text-size) * var(--line-height-normal));
-}
-
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > :is(.HyperMD-codeblock-begin, .HyperMD-codeblock-end):not(.cm-active) {
-  line-height: var(--size-4-3);
 }
