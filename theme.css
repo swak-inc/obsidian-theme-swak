@@ -164,6 +164,12 @@ body {
   font-weight: 700 !important;
 }
 
+/* 先頭列は短いラベルが収まる幅を確保し、長い文章は通常どおり折り返す */
+.markdown-rendered table tr > :is(th, td):first-child,
+.markdown-source-view.mod-cm6 table tr > :is(th, td):first-child {
+  min-width: calc(5em + 24px);
+}
+
 /* 外枠（上・下・左・右）の確実な表示保証 */
 .markdown-rendered table th:first-child,
 .markdown-rendered table td:first-child,
