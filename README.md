@@ -206,11 +206,11 @@ Screenshots captured in Obsidian 1.14.5 at 14px body text, using the sample note
 
 ## Installation / インストール方法
 
-### Option 1: Community Themes (After Listing) / コミュニティテーマから（掲載後）
+### Option 1: Community Themes (Recommended) / コミュニティテーマから（推奨）
 
 **English**
 
-Community directory registration is being prepared. Until Swak is listed, use the manual installation below. After listing:
+Swak is available in the [Obsidian Community directory](https://community.obsidian.md/themes/swak). Select **Add to Obsidian** on the listing page, or install it from within Obsidian:
 
 1. Open **Settings** in Obsidian (`Cmd + ,` or `Ctrl + ,`).
 2. Navigate to **Appearance** -> **Themes** -> **Community themes**.
@@ -218,7 +218,7 @@ Community directory registration is being prepared. Until Swak is listed, use th
 
 **日本語**
 
-現在、コミュニティテーマ一覧への登録を準備しています。掲載までは、下記の手動インストールをご利用ください。掲載後は次の手順で導入できます。
+[Obsidian Communityに掲載されています](https://community.obsidian.md/themes/swak)。掲載ページの **Add to Obsidian**、または次の手順でObsidian内から導入できます。
 
 1. Obsidianの「設定」を開きます（`Cmd + ,` または `Ctrl + ,`）。
 2. 「外観」 -> 「テーマ」 -> 「コミュニティテーマ」へ進みます。
