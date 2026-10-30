@@ -1,0 +1,28 @@
+body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family); font-size: 14px; background: var(--vscode-editor-background); }
+#toolbar { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 8px 16px; background: var(--vscode-editor-background); border-bottom: 1px solid var(--vscode-widget-border, #64748b44); }
+.modes, .formatting { display: flex; align-items: center; gap: 4px; }
+#toolbar button, #toolbar .selected { padding: 5px 8px; border: 0; border-radius: 4px; font: inherit; font-size: 12px; color: var(--vscode-foreground); background: transparent; }
+#toolbar button { cursor: pointer; }
+#toolbar button:hover { background: var(--vscode-toolbar-hoverBackground); }
+#toolbar .selected { color: var(--vscode-textLink-foreground); background: var(--vscode-list-inactiveSelectionBackground); }
+#status { padding-inline: 8px; font-size: 11px; color: var(--vscode-descriptionForeground); }
+#notice { padding: 12px; color: var(--vscode-errorForeground); }
+#editor { padding: 24px 32px 40vh; }
+.ProseMirror { outline: none; min-height: 50vh; white-space: pre-wrap; overflow-wrap: break-word; }
+.ProseMirror :is(h1, h2, h3) { scroll-margin-top: 85px; }
+.ProseMirror h3 { margin-bottom: 6px !important; }
+.ProseMirror p { min-height: 1em; }
+.ProseMirror li { position: relative; }
+.ProseMirror .task-list-item-checkbox { position: absolute; left: 0; top: 0.3em; cursor: pointer; }
+.ProseMirror ol > .task-list-item { padding-left: 1.5em; }
+.ProseMirror .swak-list-content > p { margin-block: 0.3em; }
+.ProseMirror table { overflow: visible; table-layout: auto; }
+.ProseMirror :is(th, td) > p { margin-block: 0; }
+.ProseMirror :is(th, td) { position: relative; }
+.ProseMirror .selectedCell:after { z-index: 2; position: absolute; content: ''; inset: 0; background: #60a5fa33; pointer-events: none; }
+.ProseMirror .callout-title-inner { border: none; outline: none; padding: 0; color: inherit; background: transparent; font: inherit; width: 100%; }
+.ProseMirror .callout-title-inner::placeholder { color: inherit; opacity: 1; text-transform: capitalize; }
+.swak-fold { border: 0; background: transparent; color: inherit; cursor: pointer; font-size: 18px; padding: 0 4px; }
+.ProseMirror .swak-raw-block { white-space: pre-wrap; }
+.ProseMirror [hidden] { display: none !important; }
+@media (max-width: 480px) { #editor { padding: 16px 16px 40vh; } }

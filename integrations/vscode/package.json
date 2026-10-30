@@ -1,8 +1,8 @@
 {
   "name": "swak-markdown-preview",
-  "displayName": "Swak Markdown Preview",
-  "description": "Obsidian Swakの装飾をAntigravity IDE / VS CodeのMarkdownプレビューで表示します。",
-  "version": "0.1.0",
+  "displayName": "Swak Markdown",
+  "description": "Swakの装飾でライブプレビュー編集・プレビュー閲覧を切り替えます。",
+  "version": "0.2.0",
   "publisher": "swak-inc",
   "license": "MIT",
   "engines": {
@@ -25,6 +25,21 @@
     "virtualWorkspaces": true
   },
   "contributes": {
+    "customEditors": [{ "viewType": "swak.markdown.live", "displayName": "Swak Live Preview", "priority": "option", "selector": [{ "filenamePattern": "*.md" }, { "filenamePattern": "*.markdown" }] }],
+    "commands": [
+      { "command": "swak.openLive", "title": "Swak: ライブプレビューで編集", "icon": "$(edit)" },
+      { "command": "swak.openPreview", "title": "Swak: プレビューで読む", "icon": "$(book)" }
+    ],
+    "menus": {
+      "editor/title": [
+        { "command": "swak.openLive", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@1" },
+        { "command": "swak.openPreview", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@2" }
+      ],
+      "explorer/context": [
+        { "command": "swak.openLive", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@1" },
+        { "command": "swak.openPreview", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@2" }
+      ]
+    },
     "markdown.markdownItPlugins": true,
     "markdown.previewStyles": [
       "./dist/theme.css",
@@ -40,7 +55,16 @@
   "dependencies": {
     "markdown-it-mark": "4.0.0",
     "markdown-it-obsidian-callouts": "0.3.5",
-    "markdown-it-task-lists": "2.1.1"
+    "markdown-it-task-lists": "2.1.1",
+    "prosemirror-commands": "1.7.2",
+    "prosemirror-example-setup": "1.2.3",
+    "prosemirror-history": "1.5.1",
+    "prosemirror-keymap": "1.2.3",
+    "prosemirror-markdown": "1.13.9",
+    "prosemirror-model": "1.25.12",
+    "prosemirror-state": "1.4.4",
+    "prosemirror-tables": "1.8.5",
+    "prosemirror-view": "1.42.8"
   },
   "devDependencies": {
     "@vscode/vsce": "4.1.0",

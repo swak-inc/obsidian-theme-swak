@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, copyFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 
@@ -16,6 +16,9 @@ const previewTheme = theme
 await writeFile(new URL('theme.css', dist), previewTheme);
 
 const icons = {};
+for (const [type, icon] of Object.entries({ note: 'pencil', abstract: 'square-text', info: 'info', todo: 'list-todo', example: 'list', tip: 'lightbulb', success: 'circle-check', question: 'circle-help', warning: 'triangle-alert', failure: 'circle-x', danger: 'circle-alert', bug: 'bug', quote: 'quote' })) {
+  icons[type] = await readFile(new URL(`node_modules/lucide-static/icons/${icon}.svg`, root), 'utf8');
+}
 for (const match of theme.matchAll(/([^{}]+)\{[^{}]*--callout-icon:\s*([^;]+);[^{}]*\}/g)) {
   const [, selector, value] = match;
   let svg;
@@ -30,7 +33,7 @@ for (const match of theme.matchAll(/([^{}]+)\{[^{}]*--callout-icon:\s*([^;]+);[^
 }
 await writeFile(new URL('icons.json', dist), JSON.stringify(icons, null, 2) + '\n');
 
-await build({
+const hostBuild = await build({
   absWorkingDir: fileURLToPath(root),
   entryPoints: ['src/extension.cjs'],
   outfile: 'dist/extension.cjs',
@@ -38,17 +41,25 @@ await build({
   platform: 'node',
   target: 'node20',
   format: 'cjs',
-  legalComments: 'eof'
+  legalComments: 'eof',
+  external: ['vscode'],
+  metafile: true
 });
+const liveBuild = await build({ absWorkingDir: fileURLToPath(root), entryPoints: ['src/live.js'], outfile: 'dist/live.js', bundle: true, platform: 'browser', target: 'chrome130', format: 'iife', legalComments: 'eof', metafile: true });
+const vendorStyles = await Promise.all(['prosemirror-view/style/prosemirror.css', 'prosemirror-tables/style/tables.css'].map(path => readFile(new URL('node_modules/' + path, root), 'utf8')));
+await writeFile(new URL('live-vendor.css', dist), vendorStyles.join('\n'));
 
 await copyFile(new URL('../../LICENSE', root), new URL('LICENSE', root));
 const notices = [];
-for (const [name, license] of [
-  ['markdown-it-obsidian-callouts', 'LICENSE'],
-  ['markdown-it-mark', 'LICENSE'],
-  ['markdown-it-task-lists', 'LICENSE'],
-  ['lucide-static', 'LICENSE']
-]) {
-  notices.push(`${name}\n${await readFile(new URL(`node_modules/${name}/${license}`, root), 'utf8')}`);
+const packages = new Set(['lucide-static']);
+for (const input of [...Object.keys(hostBuild.metafile.inputs), ...Object.keys(liveBuild.metafile.inputs)]) {
+  const match = /node_modules\/((?:@[^/]+\/)?[^/]+)/.exec(input);
+  if (match) packages.add(match[1]);
+}
+for (const name of [...packages].sort()) {
+  const directory = new URL(`node_modules/${name}/`, root);
+  const licenses = (await readdir(directory)).filter(file => /^(license|copying)([.-]|$)/i.test(file));
+  if (!licenses.length) throw new Error(`ライセンスファイルがありません: ${name}`);
+  for (const license of licenses) notices.push(`${name}\n${await readFile(new URL(license, directory), 'utf8')}`);
 }
 await writeFile(new URL('THIRD-PARTY-NOTICES.txt', dist), notices.join('\n\n---\n\n'));
