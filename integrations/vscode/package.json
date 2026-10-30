@@ -2,7 +2,7 @@
   "name": "swak-markdown-preview",
   "displayName": "Swak Markdown",
   "description": "Swakの装飾でライブプレビュー編集・プレビュー閲覧を切り替えます。",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "publisher": "swak-inc",
   "license": "MIT",
   "engines": {

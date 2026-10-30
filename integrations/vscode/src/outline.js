@@ -1,3 +1,5 @@
+import { createOutlineResize } from './outline-resize.js';
+
 const headingSelector = 'h1, h2, h3, h4, h5, h6';
 
 export function createOutline({ getRoot, onNavigate }) {
@@ -13,6 +15,7 @@ export function createOutline({ getRoot, onNavigate }) {
   let desktopOpen = true, mobileOpen = false, headings = [], entries = [], signature = '', active = -1;
   let hoveredEntry = null;
   let refreshFrame = 0, scrollFrame = 0;
+  const resize = createOutlineResize({ layout, sidebar, narrow, onResize: scheduleCurrent });
 
   function updateVisibility() {
     const open = narrow.matches ? mobileOpen : desktopOpen;
@@ -20,6 +23,7 @@ export function createOutline({ getRoot, onNavigate }) {
     layout.classList.toggle('outline-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.classList.toggle('selected', open);
+    resize.refresh();
     scheduleCurrent();
   }
   function setOpen(open) {
