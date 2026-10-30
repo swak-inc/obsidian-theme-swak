@@ -103,6 +103,13 @@ body {
   margin-bottom: -10px !important;
 }
 
+/* 表の上余白は0なので、H3直後の表には見出し側で余白を確保する。
+   ノートのブロックラッパーと、READMEなどの直接描画の両方に対応する。 */
+.markdown-rendered h3:has(+ table, + .table-wrapper),
+.markdown-rendered .el-h3:has(+ .el-table) > h3 {
+  margin-bottom: var(--p-spacing) !important;
+}
+
 /* H3アイコン: 文字の上下中央にピッタリ配置される大型角丸スクエア（■） */
 .markdown-rendered h3::before,
 .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-3::before {
