@@ -6,9 +6,11 @@ export function createOutline({ getRoot, onNavigate }) {
   const list = document.getElementById('outline-list');
   const empty = document.getElementById('outline-empty');
   const toggle = document.getElementById('outline-toggle');
+  const expandAll = document.getElementById('outline-expand-all');
+  const collapseAll = document.getElementById('outline-collapse-all');
   const toolbar = document.getElementById('toolbar');
   const narrow = matchMedia('(max-width: 800px)');
-  let desktopOpen = true, mobileOpen = false, headings = [], buttons = [], signature = '', active = -1;
+  let desktopOpen = true, mobileOpen = false, headings = [], entries = [], signature = '', active = -1;
   let refreshFrame = 0, scrollFrame = 0;
 
   function updateVisibility() {
@@ -38,15 +40,19 @@ export function createOutline({ getRoot, onNavigate }) {
     }
     if (next === active) return;
     active = next;
-    buttons.forEach((button, index) => {
-      if (index === active) button.setAttribute('aria-current', 'location');
-      else button.removeAttribute('aria-current');
+    entries.forEach((entry, index) => {
+      if (index === active) entry.link.setAttribute('aria-current', 'location');
+      else entry.link.removeAttribute('aria-current');
+      entry.row.classList.remove('outline-current-parent');
+      entry.children?.classList.remove('outline-branch-active');
     });
-    list.querySelectorAll('.outline-branch-active').forEach(branch => branch.classList.remove('outline-branch-active'));
-    const button = buttons[active];
-    for (let branch = button?.parentElement.parentElement; branch && branch !== list; branch = branch.parentElement.parentElement) {
-      branch.classList.add('outline-branch-active');
+    let visible = entries[active];
+    for (let parent = visible?.parent; parent; parent = parent.parent) {
+      parent.children.classList.add('outline-branch-active');
+      if (parent.collapsed) visible = parent;
     }
+    if (visible && visible !== entries[active]) visible.row.classList.add('outline-current-parent');
+    const button = visible?.link;
     if (button && !sidebar.hidden) {
       const bounds = button.getBoundingClientRect(), viewport = list.getBoundingClientRect();
       if (bounds.top < viewport.top) list.scrollTop += bounds.top - viewport.top;
@@ -73,6 +79,25 @@ export function createOutline({ getRoot, onNavigate }) {
     if (narrow.matches) setOpen(false);
     scheduleCurrent();
   }
+  function updateFold(entry) {
+    if (!entry.children) return;
+    entry.children.hidden = entry.collapsed;
+    entry.toggle.setAttribute('aria-expanded', String(!entry.collapsed));
+    const label = `${entry.title}を${entry.collapsed ? '展開' : '折りたたむ'}`;
+    entry.toggle.setAttribute('aria-label', label);
+    entry.toggle.title = label;
+  }
+  function updateFoldControls() {
+    const branches = entries.filter(entry => entry.children);
+    expandAll.disabled = !branches.some(entry => entry.collapsed);
+    collapseAll.disabled = !branches.some(entry => !entry.collapsed);
+    active = -1;
+    scheduleCurrent();
+  }
+  function setAllCollapsed(collapsed) {
+    entries.forEach(entry => { entry.collapsed = collapsed; updateFold(entry); });
+    updateFoldControls();
+  }
   function refresh() {
     if (refreshFrame) return;
     refreshFrame = requestAnimationFrame(() => {
@@ -82,10 +107,18 @@ export function createOutline({ getRoot, onNavigate }) {
       if (nextSignature !== signature) {
         signature = nextSignature;
         active = -1;
+        const previous = entries;
+        const byHeading = new Map(previous.map(entry => [entry.heading, entry]));
+        const retained = new Set(headings), used = new Set();
         const fragment = document.createDocumentFragment();
         const parents = [];
-        buttons = headings.map((heading, index) => {
+        entries = headings.map((heading, index) => {
           const level = Number(heading.tagName.slice(1));
+          const title = heading.textContent.trim() || '無題の見出し';
+          // 同じDOMを優先し、表示切替時は見出し名・出現順で開閉状態を引き継ぐ。
+          let prior = byHeading.get(heading) || previous.find(entry => !used.has(entry) && !retained.has(entry.heading) && entry.level === level && entry.title === title);
+          if (!prior && previous.length === headings.length && !used.has(previous[index]) && !retained.has(previous[index].heading)) prior = previous[index];
+          if (prior) used.add(prior);
           while (parents.length && parents.at(-1).level >= level) parents.pop();
           const parent = parents.at(-1);
           // 見出しレベルが飛んでも、直前の上位見出しの子としてまとめる。
@@ -93,21 +126,40 @@ export function createOutline({ getRoot, onNavigate }) {
             ? (parent.children ||= parent.item.appendChild(document.createElement('ol')))
             : fragment;
           const item = document.createElement('li');
-          const button = item.appendChild(document.createElement('button'));
-          const title = heading.textContent.trim() || '無題の見出し';
-          button.type = 'button'; button.textContent = title; button.title = title;
-          button.addEventListener('click', () => navigate(index));
+          const row = item.appendChild(document.createElement('div'));
+          row.className = 'outline-row';
+          const disclosure = row.appendChild(document.createElement('button'));
+          disclosure.type = 'button'; disclosure.className = 'outline-chevron'; disclosure.hidden = true;
+          const link = row.appendChild(document.createElement('button'));
+          link.type = 'button'; link.className = 'outline-link'; link.textContent = title; link.title = title;
+          link.addEventListener('click', () => navigate(index));
+          const entry = { level, title, heading, item, row, link, toggle: disclosure, parent, collapsed: prior?.collapsed || false };
+          disclosure.addEventListener('click', () => {
+            entry.collapsed = !entry.collapsed;
+            updateFold(entry); updateFoldControls();
+          });
           container.appendChild(item);
-          parents.push({ level, item });
-          return button;
+          parents.push(entry);
+          return entry;
+        });
+        entries.forEach((entry, index) => {
+          if (!entry.children) return;
+          entry.children.id = `outline-children-${index}`;
+          entry.toggle.hidden = false;
+          entry.toggle.setAttribute('aria-controls', entry.children.id);
+          updateFold(entry);
         });
         list.replaceChildren(fragment);
         empty.hidden = headings.length > 0;
+        updateFoldControls();
       }
+      entries.forEach((entry, index) => { entry.heading = headings[index]; });
       scheduleCurrent();
     });
   }
   toggle.addEventListener('click', () => setOpen(sidebar.hidden));
+  expandAll.addEventListener('click', () => setAllCollapsed(false));
+  collapseAll.addEventListener('click', () => setAllCollapsed(true));
   document.getElementById('outline-close').addEventListener('click', () => { setOpen(false); toggle.focus(); });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && narrow.matches && mobileOpen) { setOpen(false); toggle.focus(); }

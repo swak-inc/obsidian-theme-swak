@@ -96,7 +96,11 @@ function registerLiveEditor(context, vscode) {
           <span id="status" role="status">読み込み中</span>
         </div></nav><div id="notice" role="alert" hidden></div>
         <div id="document-layout"><div id="document-content"><main id="editor"></main><main id="preview" class="markdown-body" hidden></main></div>
-          <aside id="outline" aria-label="目次"><div class="outline-header"><span>目次</span><button id="outline-close" aria-label="目次を閉じる" title="目次を閉じる">×</button></div>
+          <aside id="outline" aria-label="目次"><div class="outline-header"><span>目次</span><div class="outline-actions">
+            <button id="outline-expand-all" aria-label="目次をすべて展開" title="すべて展開" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5-5 5 5M7 15l5 5 5-5"/></svg></button>
+            <button id="outline-collapse-all" aria-label="目次をすべて折りたたむ" title="すべて折りたたむ" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 4 5 5 5-5M7 20l5-5 5 5"/></svg></button>
+            <button id="outline-close" aria-label="目次を閉じる" title="目次を閉じる">×</button>
+          </div></div>
             <nav aria-label="見出し一覧"><ol id="outline-list"></ol><p id="outline-empty">見出しがありません</p></nav>
           </aside>
         </div>
