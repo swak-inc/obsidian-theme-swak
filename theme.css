@@ -58,6 +58,20 @@
   color: rgba(255, 255, 255, 0.45) !important;
 }
 
+/* PDFでは本文のH1と、Obsidianが直下に追加するファイル名タイトルを区別する。 */
+@media print {
+  .print .markdown-rendered h1 {
+    box-shadow: none !important;
+  }
+
+  .print > .markdown-preview-view > h1 {
+    background: none !important;
+    color: #0B3D63 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+
 /* 1.5 中見出しアクセント（H2: ペールアイスブルー帯 + 濃紺文字） */
 .markdown-rendered h2,
 .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 {
