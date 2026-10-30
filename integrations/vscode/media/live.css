@@ -13,8 +13,9 @@ body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family)
 #document-content { min-width: 0; }
 #outline { position: sticky; top: calc(var(--toolbar-height, 50px) + 24px); margin: 24px 16px 0 0; padding-left: 16px; border-left: 1px solid var(--vscode-widget-border, #64748b44); min-width: 0; min-height: calc(100vh - var(--toolbar-height, 50px) - 24px); }
 #outline-resize { position: absolute; z-index: 1; inset: 0 auto 0 -5px; width: 10px; min-height: 40px; cursor: col-resize; touch-action: none; }
-#outline-resize::after { content: ''; position: absolute; inset: 0 auto 0 4px; width: 2px; background: transparent; }
-#outline-resize:hover::after, #outline-resize:focus-visible::after, .outline-resizing #outline-resize::after { background: var(--h3-color, #60a5fa); }
+#outline-resize::after { content: ''; position: absolute; inset: 0 auto 0 4px; width: 2px; background: transparent; transition: background-color 80ms ease-out; }
+#outline-resize:hover::after { background: var(--h3-color, #60a5fa); transition-delay: 300ms; }
+#outline-resize:focus-visible::after, .outline-resizing #outline-resize::after { background: var(--h3-color, #60a5fa); transition: none; }
 #outline-resize:focus-visible { outline: none; }
 body.outline-resizing, body.outline-resizing * { cursor: col-resize !important; user-select: none !important; }
 .outline-header { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 8px; color: var(--vscode-descriptionForeground); font-size: 12px; font-weight: 600; }
