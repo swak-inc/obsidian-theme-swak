@@ -3,9 +3,10 @@ const { setup } = require('../helpers/browser.cjs');
 
 const source = '# 文書タイトル\n\n## 概要\n\n本文です。\n\n### 詳細\n\n詳しい内容です。\n\n## 次の章\n\n次に進みます。\n';
 
-async function dragBy(page, handle, delta, release = true) {
+async function dragBy(page, handle, delta, { release = true, fromBottom = false } = {}) {
   const bounds = await handle.boundingBox();
-  const x = bounds.x + bounds.width / 2, y = bounds.y + 12;
+  const x = bounds.x + bounds.width / 2;
+  const y = fromBottom ? page.viewportSize().height - 16 : bounds.y + 12;
   await page.mouse.move(x, y);
   await page.mouse.down();
   await page.mouse.move(x + delta, y, { steps: 5 });
@@ -18,13 +19,14 @@ test('目次の境界をドラッグすると本文と目次の幅が連動し�
   const content = page.locator('#document-content');
   await expect(handle).toHaveAttribute('aria-valuenow', '220');
   const original = await content.boundingBox();
-  await dragBy(page, handle, -160);
+  await page.getByRole('button', { name: '目次をすべて折りたたむ', exact: true }).click();
+  await dragBy(page, handle, -160, { fromBottom: true });
   await expect(handle).toHaveAttribute('aria-valuenow', '380');
   expect((await content.boundingBox()).width).toBeCloseTo(original.width - 160);
   await expect(page.locator('body')).not.toHaveClass(/outline-resizing/);
   await page.getByRole('button', { name: 'プレビュー', exact: true }).click();
   await expect(handle).toHaveAttribute('aria-valuenow', '380');
-  await dragBy(page, handle, 80);
+  await dragBy(page, handle, 80, { fromBottom: true });
   await expect(handle).toHaveAttribute('aria-valuenow', '300');
   await page.getByRole('button', { name: 'ライブプレビュー', exact: true }).click();
   await page.getByRole('button', { name: '目次', exact: true }).click();
@@ -68,7 +70,7 @@ test('幅の上下限・キーボード・ドラッグ取消と画面縮小で�
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(600);
   await page.setViewportSize({ width: 1280, height: 720 });
   await expect(handle).toHaveAttribute('aria-valuenow', '480');
-  await dragBy(page, handle, 100, false);
+  await dragBy(page, handle, 100, { release: false });
   await expect(handle).toHaveAttribute('aria-valuenow', '380');
   await page.keyboard.press('Escape');
   await page.mouse.up();

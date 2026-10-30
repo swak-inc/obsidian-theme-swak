@@ -11,7 +11,7 @@ body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family)
 #document-layout { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 964px; margin-inline: auto; align-items: start; }
 #document-layout.outline-open { grid-template-columns: minmax(0, 1fr) var(--outline-width, 220px); max-width: 1184px; }
 #document-content { min-width: 0; }
-#outline { position: sticky; top: calc(var(--toolbar-height, 50px) + 24px); margin: 24px 16px 24px 0; padding-left: 16px; border-left: 1px solid var(--vscode-widget-border, #64748b44); min-width: 0; }
+#outline { position: sticky; top: calc(var(--toolbar-height, 50px) + 24px); margin: 24px 16px 0 0; padding-left: 16px; border-left: 1px solid var(--vscode-widget-border, #64748b44); min-width: 0; min-height: calc(100vh - var(--toolbar-height, 50px) - 24px); }
 #outline-resize { position: absolute; z-index: 1; inset: 0 auto 0 -5px; width: 10px; min-height: 40px; cursor: col-resize; touch-action: none; }
 #outline-resize::after { content: ''; position: absolute; inset: 0 auto 0 4px; width: 2px; background: transparent; }
 #outline-resize:hover::after, #outline-resize:focus-visible::after, .outline-resizing #outline-resize::after { background: var(--h3-color, #60a5fa); }
@@ -59,6 +59,6 @@ body.vscode-body [hidden] { display: none !important; }
 .ProseMirror [hidden] { display: none !important; }
 @media (max-width: 800px) {
   #document-layout.outline-open { grid-template-columns: minmax(0, 1fr); }
-  #outline { position: fixed; z-index: 20; top: calc(var(--toolbar-height, 50px) + 8px); right: 12px; width: min(260px, calc(100vw - 48px)); padding: 12px; margin: 0; background: var(--vscode-sideBar-background, var(--vscode-editor-background)); border: 1px solid var(--vscode-widget-border, #64748b44); border-radius: 6px; box-shadow: 0 4px 16px #0003; }
+  #outline { position: fixed; z-index: 20; top: calc(var(--toolbar-height, 50px) + 8px); right: 12px; width: min(260px, calc(100vw - 48px)); min-height: 0; padding: 12px; margin: 0; background: var(--vscode-sideBar-background, var(--vscode-editor-background)); border: 1px solid var(--vscode-widget-border, #64748b44); border-radius: 6px; box-shadow: 0 4px 16px #0003; }
 }
 @media (max-width: 480px) { #editor, #preview { padding: 16px 16px 40vh; } }
