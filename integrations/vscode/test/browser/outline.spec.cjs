@@ -76,3 +76,29 @@ test('見出しがない文書でも編集でき、見出し追加後に目次�
   await expect(page.locator('#outline-empty')).toBeHidden();
   expect(errors).toEqual([]);
 });
+
+test('見出しレベルの飛び・変更に合わせて親子関係とガイド線を更新する', async ({ page }) => {
+  const text = `## 概要\n\n#### 詳細\n\n###### 補足\n\n### 次の項目\n\n## 別の章\n\n${filler}`;
+  const { host, errors } = await setup(page, text);
+  const roots = page.locator('#outline-list > li > button');
+  const children = page.locator('#outline-list > li:first-child > ol > li > button');
+  await expect(roots).toHaveText(['概要', '別の章']);
+  await expect(children).toHaveText(['詳細', '次の項目']);
+  await page.locator('#outline-list button').filter({ hasText: /^補足$/ }).click();
+  await expect(page.locator('#outline-list .outline-branch-active')).toHaveCount(2);
+  await expect(page.locator('#outline-list ol').first()).toHaveCSS('border-left-width', '1px');
+  expect(host.document.text).toBe(text);
+
+  await page.locator('#outline-list button').filter({ hasText: /^詳細$/ }).click();
+  await page.getByRole('button', { name: 'H2', exact: true }).click();
+  await expect(roots).toHaveText(['概要', '詳細', '別の章']);
+  await expect(page.locator('#outline-list > li:nth-child(2) > ol > li > button')).toHaveText(['補足', '次の項目']);
+  await page.locator('[data-command="undo"]').click();
+  await expect(roots).toHaveText(['概要', '別の章']);
+  await expect(children).toHaveText(['詳細', '次の項目']);
+  await page.getByRole('button', { name: 'プレビュー', exact: true }).click();
+  await expect(roots).toHaveText(['概要', '別の章']);
+  await expect(children).toHaveText(['詳細', '次の項目']);
+  expect(host.document.text).toBe(text);
+  expect(errors).toEqual([]);
+});

@@ -8,7 +8,7 @@ export function createOutline({ getRoot, onNavigate }) {
   const toggle = document.getElementById('outline-toggle');
   const toolbar = document.getElementById('toolbar');
   const narrow = matchMedia('(max-width: 800px)');
-  let desktopOpen = true, mobileOpen = false, headings = [], signature = '', active = -1;
+  let desktopOpen = true, mobileOpen = false, headings = [], buttons = [], signature = '', active = -1;
   let refreshFrame = 0, scrollFrame = 0;
 
   function updateVisibility() {
@@ -38,12 +38,15 @@ export function createOutline({ getRoot, onNavigate }) {
     }
     if (next === active) return;
     active = next;
-    [...list.children].forEach((item, index) => {
-      const button = item.firstElementChild;
+    buttons.forEach((button, index) => {
       if (index === active) button.setAttribute('aria-current', 'location');
       else button.removeAttribute('aria-current');
     });
-    const button = list.children[active]?.firstElementChild;
+    list.querySelectorAll('.outline-branch-active').forEach(branch => branch.classList.remove('outline-branch-active'));
+    const button = buttons[active];
+    for (let branch = button?.parentElement.parentElement; branch && branch !== list; branch = branch.parentElement.parentElement) {
+      branch.classList.add('outline-branch-active');
+    }
     if (button && !sidebar.hidden) {
       const bounds = button.getBoundingClientRect(), viewport = list.getBoundingClientRect();
       if (bounds.top < viewport.top) list.scrollTop += bounds.top - viewport.top;
@@ -79,15 +82,26 @@ export function createOutline({ getRoot, onNavigate }) {
       if (nextSignature !== signature) {
         signature = nextSignature;
         active = -1;
-        list.replaceChildren(...headings.map((heading, index) => {
+        const fragment = document.createDocumentFragment();
+        const parents = [];
+        buttons = headings.map((heading, index) => {
+          const level = Number(heading.tagName.slice(1));
+          while (parents.length && parents.at(-1).level >= level) parents.pop();
+          const parent = parents.at(-1);
+          // 見出しレベルが飛んでも、直前の上位見出しの子としてまとめる。
+          const container = parent
+            ? (parent.children ||= parent.item.appendChild(document.createElement('ol')))
+            : fragment;
           const item = document.createElement('li');
           const button = item.appendChild(document.createElement('button'));
           const title = heading.textContent.trim() || '無題の見出し';
           button.type = 'button'; button.textContent = title; button.title = title;
-          button.style.setProperty('--heading-depth', Number(heading.tagName.slice(1)) - 1);
           button.addEventListener('click', () => navigate(index));
-          return item;
-        }));
+          container.appendChild(item);
+          parents.push({ level, item });
+          return button;
+        });
+        list.replaceChildren(fragment);
         empty.hidden = headings.length > 0;
       }
       scheduleCurrent();
