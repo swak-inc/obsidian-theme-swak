@@ -86,7 +86,7 @@ function registerLiveEditor(context, vscode) {
         <link rel="stylesheet" href="${uri('media/live.css')}">
         </head><body class="vscode-body">
         <nav id="toolbar" aria-label="Swak Markdown"><div class="modes">
-          <button data-mode="live" class="selected" aria-pressed="true">ライブプレビュー</button><button data-mode="preview" aria-pressed="false">プレビュー</button><button data-action="source">ソース</button><button id="outline-toggle" aria-controls="outline" aria-expanded="true">目次</button>
+          <button data-mode="live" class="selected" aria-pressed="true">ライブプレビュー</button><button data-mode="preview" aria-pressed="false">プレビュー</button><button data-action="source">ソース</button><span class="toolbar-separator" aria-hidden="true"></span><button id="outline-toggle" aria-controls="outline" aria-expanded="true">目次</button>
         </div><div class="formatting">
           <button data-command="undo" title="元に戻す (⌘Z)">↶</button><button data-command="redo" title="やり直す (⇧⌘Z)">↷</button>
           <button data-command="bold" title="太字 (⌘B)"><b>B</b></button><button data-command="italic" title="斜体 (⌘I)"><i>I</i></button>

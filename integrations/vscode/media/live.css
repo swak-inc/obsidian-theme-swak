@@ -1,6 +1,7 @@
 body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family); font-size: 14px; background: var(--vscode-editor-background); }
 #toolbar { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 8px 16px; background: var(--vscode-editor-background); border-bottom: 1px solid var(--vscode-widget-border, #64748b44); }
 .modes, .formatting { display: flex; align-items: center; gap: 4px; }
+.toolbar-separator { flex: 0 0 1px; height: 18px; margin-inline: 6px; background: color-mix(in srgb, var(--vscode-foreground, #64748b) 25%, transparent); }
 #toolbar button, #toolbar .selected { padding: 5px 8px; border: 0; border-radius: 4px; font: inherit; font-size: 12px; color: var(--vscode-foreground); background: transparent; }
 #toolbar button { cursor: pointer; }
 #toolbar button:hover { background: var(--vscode-toolbar-hoverBackground); }
@@ -18,8 +19,8 @@ body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family)
 .outline-actions svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 #outline-list, #outline-list ol { list-style: none; margin: 0; padding: 0; }
 #outline-list { overflow: auto; max-height: calc(100vh - var(--toolbar-height, 50px) - 100px); overscroll-behavior: contain; }
-#outline-list ol { margin-left: 10px; padding-left: 3px; border-left: 1px solid color-mix(in srgb, var(--h3-color, #60a5fa) 40%, transparent); }
-#outline-list ol.outline-branch-active { border-left-color: color-mix(in srgb, var(--h3-color, #60a5fa) 80%, transparent); }
+#outline-list ol { margin-left: 10px; padding-left: 3px; border-left: 1px solid color-mix(in srgb, var(--h3-color, #60a5fa) 30%, transparent); }
+#outline-list ol.outline-branch-active { border-left-color: var(--h3-color, #60a5fa); }
 .outline-row { display: flex; align-items: flex-start; border-radius: 4px; }
 #outline-list button { box-sizing: border-box; border: 0; border-radius: 4px; background: transparent; color: var(--vscode-descriptionForeground); font: inherit; font-size: 12px; line-height: 1.5; cursor: pointer; }
 #outline-list .outline-link { flex: 1; min-width: 0; padding: 6px 4px; text-align: left; overflow-wrap: anywhere; }

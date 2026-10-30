@@ -85,7 +85,8 @@ test('見出しレベルの飛び・変更に合わせて親子関係とガイ�
   await expect(roots).toHaveText(['概要', '別の章']);
   await expect(children).toHaveText(['詳細', '次の項目']);
   await page.locator('#outline-list .outline-link').filter({ hasText: /^補足$/ }).click();
-  await expect(page.locator('#outline-list .outline-branch-active')).toHaveCount(2);
+  await expect(page.locator('#outline-list .outline-branch-active')).toHaveCount(1);
+  await expect(page.locator('#outline-list > li:first-child > ol > li:first-child > ol')).toHaveClass('outline-branch-active');
   await expect(page.locator('#outline-list ol').first()).toHaveCSS('border-left-width', '1px');
   expect(host.document.text).toBe(text);
 
@@ -152,5 +153,31 @@ test('折りたたんだ親の名称変更や手前への見出し追加でも�
   await page.getByRole('button', { name: '目次をすべて展開', exact: true }).click();
   await expect(page.locator('#outline-list .outline-link').last()).toBeVisible();
   expect(host.document.text).toContain('## 新しい後の章');
+  expect(errors).toEqual([]);
+});
+
+test('展開中の親・末端・ホバー・キーボード操作に最も近い階層の線だけを強調する', async ({ page }) => {
+  const { host, errors } = await setup(page, source);
+  const links = page.locator('#outline-list .outline-link');
+  const guide = page.locator('#outline-list .outline-branch-active');
+  await links.nth(1).click();
+  await expect(guide).toHaveCount(1);
+  await expect(guide).toHaveAttribute('id', 'outline-children-1');
+  await links.nth(3).click();
+  await expect(guide).toHaveAttribute('id', 'outline-children-3');
+  await links.nth(4).click();
+  await expect(guide).toHaveAttribute('id', 'outline-children-3');
+  await links.nth(1).hover();
+  await expect(guide).toHaveAttribute('id', 'outline-children-1');
+  await page.locator('#outline-toggle').hover();
+  await expect(guide).toHaveAttribute('id', 'outline-children-3');
+  await page.getByRole('button', { name: '概要を折りたたむ', exact: true }).focus();
+  await expect(guide).toHaveAttribute('id', 'outline-children-1');
+  await page.locator('#outline-toggle').focus();
+  await expect(guide).toHaveAttribute('id', 'outline-children-3');
+  await page.getByRole('button', { name: '同じ見出しを折りたたむ', exact: true }).click();
+  await expect(guide).toHaveAttribute('id', 'outline-children-1');
+  expect(host.document.text).toBe(source);
+  expect(host.document.isDirty).toBe(false);
   expect(errors).toEqual([]);
 });
