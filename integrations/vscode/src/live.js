@@ -1,4 +1,4 @@
-import { EditorState } from 'prosemirror-state';
+import { EditorState, TextSelection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { tableEditing, goToNextCell } from 'prosemirror-tables';
@@ -8,6 +8,7 @@ import { undo, redo } from 'prosemirror-history';
 import { schema, parseDocument, serializeDocument } from './live-model.cjs';
 import icons from '../dist/icons.json';
 import { renderPreview } from './preview.js';
+import { createOutline } from './outline.js';
 
 const api = acquireVsCodeApi();
 const status = document.getElementById('status');
@@ -16,6 +17,15 @@ let view, model, version, baseText = '', currentText = '', sentText = null, next
 let mode = 'live';
 const editorElement = document.getElementById('editor');
 const previewElement = document.getElementById('preview');
+const outline = createOutline({
+  getRoot: () => mode === 'live' ? view?.dom : previewElement,
+  onNavigate(heading) {
+    if (mode !== 'live' || !view) return;
+    const position = view.posAtDOM(heading, 0);
+    view.dispatch(view.state.tr.setSelection(TextSelection.near(view.state.doc.resolve(position))));
+    view.focus();
+  }
+});
 
 function switchMode(next) {
   mode = next;
@@ -28,6 +38,7 @@ function switchMode(next) {
   document.querySelectorAll('[data-command]').forEach(button => { button.hidden = mode !== 'live'; });
   if (mode === 'preview') previewElement.innerHTML = renderPreview(currentText);
   else view?.focus();
+  outline.refresh();
 }
 
 function sendPending() {
@@ -132,6 +143,7 @@ function load(text, nextVersion, dirty) {
         currentText = serializeDocument(view.state.doc, model.originals, model.eol);
         status.textContent = '未保存';
         sendPending();
+        outline.refresh();
       }
     },
     handleDOMEvents: {
@@ -141,6 +153,7 @@ function load(text, nextVersion, dirty) {
   });
   status.textContent = dirty ? '未保存' : '保存済み';
   if (mode === 'preview') previewElement.innerHTML = renderPreview(currentText);
+  outline.refresh();
 }
 window.addEventListener('message', event => {
   const message = event.data;

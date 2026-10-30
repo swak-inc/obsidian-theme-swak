@@ -86,7 +86,7 @@ function registerLiveEditor(context, vscode) {
         <link rel="stylesheet" href="${uri('media/live.css')}">
         </head><body class="vscode-body">
         <nav id="toolbar" aria-label="Swak Markdown"><div class="modes">
-          <button data-mode="live" class="selected" aria-pressed="true">ライブプレビュー</button><button data-mode="preview" aria-pressed="false">プレビュー</button><button data-action="source">ソース</button>
+          <button data-mode="live" class="selected" aria-pressed="true">ライブプレビュー</button><button data-mode="preview" aria-pressed="false">プレビュー</button><button data-action="source">ソース</button><button id="outline-toggle" aria-controls="outline" aria-expanded="true">目次</button>
         </div><div class="formatting">
           <button data-command="undo" title="元に戻す (⌘Z)">↶</button><button data-command="redo" title="やり直す (⇧⌘Z)">↷</button>
           <button data-command="bold" title="太字 (⌘B)"><b>B</b></button><button data-command="italic" title="斜体 (⌘I)"><i>I</i></button>
@@ -94,7 +94,12 @@ function registerLiveEditor(context, vscode) {
           <button data-command="h1">H1</button><button data-command="h2">H2</button><button data-command="h3">H3</button>
           <button data-command="paragraph" title="本文">本文</button><button data-action="save" title="保存 (⌘S)">保存</button>
           <span id="status" role="status">読み込み中</span>
-        </div></nav><div id="notice" role="alert" hidden></div><main id="editor"></main><main id="preview" class="markdown-body" hidden></main>
+        </div></nav><div id="notice" role="alert" hidden></div>
+        <div id="document-layout"><div id="document-content"><main id="editor"></main><main id="preview" class="markdown-body" hidden></main></div>
+          <aside id="outline" aria-label="目次"><div class="outline-header"><span>目次</span><button id="outline-close" aria-label="目次を閉じる" title="目次を閉じる">×</button></div>
+            <nav aria-label="見出し一覧"><ol id="outline-list"></ol><p id="outline-empty">見出しがありません</p></nav>
+          </aside>
+        </div>
         <script nonce="${nonce}" src="${uri('dist/live.js')}"></script></body></html>`;
     }
   };

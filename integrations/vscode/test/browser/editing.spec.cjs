@@ -1,28 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const path = require('node:path');
-const { createHost } = require('../helpers/host.cjs');
+const { setup: setupBrowser } = require('../helpers/browser.cjs');
 
 const source = '# Title\n\n本文です。\n\n### 表\n\n| 項目 | 内容 |\n| --- | --- |\n| 日本語 | セル本文 |\n\n> [!tip]+ 推奨\n> 本文です。\n>\n> > [!danger]- 注意\n> > 保持します。\n\n- [ ] **確認**: 作業\n\n==***重要***==と~~取消~~\n\n数式 $E=mc^2$\n';
 
-async function setup(page, text = source) {
-  const host = await createHost(text);
-  const errors = [];
-  page.on('pageerror', error => errors.push(error.message));
-  await page.route('**/*', async route => {
-    const url = new URL(route.request().url());
-    if (url.origin !== 'https://swak.test') return route.abort();
-    if (url.pathname === '/editor') return route.fulfill({ contentType: 'text/html', body: host.panel.webview.html });
-    if (!url.pathname.startsWith('/extension/')) return route.abort();
-    const file = path.resolve(__dirname, '../..', url.pathname.slice('/extension/'.length));
-    await route.fulfill({ path: file });
-  });
-  host.panel.webview.postMessage = message => page.evaluate(message => window.postMessage(message, '*'), message);
-  await page.exposeFunction('postToHost', message => host.message(message));
-  await page.addInitScript(() => { window.acquireVsCodeApi = () => ({ postMessage: window.postToHost }); });
-  await page.goto('https://swak.test/editor');
-  await expect(page.locator('.ProseMirror')).toBeVisible();
-  return { host, errors };
-}
+const setup = (page, text = source) => setupBrowser(page, text);
 
 test('ビルド済み画面で英字・日本語・改行を入力して保存し、Undo／Redoできる', async ({ page }) => {
   const { host, errors } = await setup(page);
