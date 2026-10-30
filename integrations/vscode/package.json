@@ -2,7 +2,7 @@
   "name": "swak-markdown-preview",
   "displayName": "Swak Markdown",
   "description": "Swakの装飾でライブプレビュー編集・プレビュー閲覧を切り替えます。",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "swak-inc",
   "license": "MIT",
   "engines": {
@@ -25,19 +25,57 @@
     "virtualWorkspaces": true
   },
   "contributes": {
-    "customEditors": [{ "viewType": "swak.markdown.live", "displayName": "Swak Live Preview", "priority": "option", "selector": [{ "filenamePattern": "*.md" }, { "filenamePattern": "*.markdown" }] }],
+    "customEditors": [
+      {
+        "viewType": "swak.markdown.live",
+        "displayName": "Swak Live Preview",
+        "priority": "option",
+        "selector": [
+          {
+            "filenamePattern": "*.md"
+          },
+          {
+            "filenamePattern": "*.markdown"
+          }
+        ]
+      }
+    ],
     "commands": [
-      { "command": "swak.openLive", "title": "Swak: ライブプレビューで編集", "icon": "$(edit)" },
-      { "command": "swak.openPreview", "title": "Swak: プレビューで読む", "icon": "$(book)" }
+      {
+        "command": "swak.openLive",
+        "title": "Swak: ライブプレビューで編集",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "swak.openPreview",
+        "title": "Swak: プレビューで読む",
+        "icon": "$(book)"
+      }
     ],
     "menus": {
       "editor/title": [
-        { "command": "swak.openLive", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@1" },
-        { "command": "swak.openPreview", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@2" }
+        {
+          "command": "swak.openLive",
+          "when": "resourceExtname == .md || resourceExtname == .markdown",
+          "group": "navigation@1"
+        },
+        {
+          "command": "swak.openPreview",
+          "when": "resourceExtname == .md || resourceExtname == .markdown",
+          "group": "navigation@2"
+        }
       ],
       "explorer/context": [
-        { "command": "swak.openLive", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@1" },
-        { "command": "swak.openPreview", "when": "resourceExtname == .md || resourceExtname == .markdown", "group": "navigation@2" }
+        {
+          "command": "swak.openLive",
+          "when": "resourceExtname == .md || resourceExtname == .markdown",
+          "group": "navigation@1"
+        },
+        {
+          "command": "swak.openPreview",
+          "when": "resourceExtname == .md || resourceExtname == .markdown",
+          "group": "navigation@2"
+        }
       ]
     },
     "markdown.markdownItPlugins": true,
@@ -50,9 +88,14 @@
     "build": "node scripts/build.mjs",
     "test": "node --test test/*.test.cjs",
     "vscode:prepublish": "npm run build",
-    "package": "vsce package --no-dependencies --out dist/swak-markdown-preview.vsix"
+    "package": "vsce package --no-dependencies --out dist/swak-markdown-preview.vsix",
+    "test:browser": "playwright test"
   },
   "dependencies": {
+    "@vscode/markdown-it-katex": "1.1.2",
+    "dompurify": "3.4.17",
+    "highlight.js": "11.12.0",
+    "katex": "0.19.1",
     "markdown-it-mark": "4.0.0",
     "markdown-it-obsidian-callouts": "0.3.5",
     "markdown-it-task-lists": "2.1.1",
@@ -67,9 +110,13 @@
     "prosemirror-view": "1.42.8"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@vscode/vsce": "4.1.0",
     "esbuild": "0.28.2",
     "lucide-static": "1.64.0",
     "markdown-it": "14.3.3"
+  },
+  "overrides": {
+    "katex": "$katex"
   }
 }

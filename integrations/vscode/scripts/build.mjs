@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir, copyFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, copyFile, readdir, cp, rm } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 
@@ -45,9 +45,20 @@ const hostBuild = await build({
   external: ['vscode'],
   metafile: true
 });
-const liveBuild = await build({ absWorkingDir: fileURLToPath(root), entryPoints: ['src/live.js'], outfile: 'dist/live.js', bundle: true, platform: 'browser', target: 'chrome130', format: 'iife', legalComments: 'eof', metafile: true });
+// CJSのモデルとESMのビューが別々のクラスを持つと、実打鍵時にFragment変換が失敗する。
+const editorAliases = {};
+for (const name of (await readdir(new URL('node_modules/', root))).filter(name => name.startsWith('prosemirror-') || name === 'orderedmap')) {
+  const directory = new URL('node_modules/' + name + '/', root);
+  const pkg = JSON.parse(await readFile(new URL('package.json', directory), 'utf8'));
+  editorAliases[name] = fileURLToPath(new URL(pkg.module || pkg.main, directory));
+}
+const liveBuild = await build({ alias: editorAliases, absWorkingDir: fileURLToPath(root), entryPoints: ['src/live.js'], outfile: 'dist/live.js', bundle: true, platform: 'browser', target: 'chrome130', format: 'iife', legalComments: 'eof', metafile: true });
 const vendorStyles = await Promise.all(['prosemirror-view/style/prosemirror.css', 'prosemirror-tables/style/tables.css'].map(path => readFile(new URL('node_modules/' + path, root), 'utf8')));
 await writeFile(new URL('live-vendor.css', dist), vendorStyles.join('\n'));
+await rm(new URL('katex/', dist), { recursive: true, force: true });
+await mkdir(new URL('katex/', dist), { recursive: true });
+await copyFile(new URL('node_modules/katex/dist/katex.min.css', root), new URL('katex/katex.min.css', dist));
+await cp(new URL('node_modules/katex/dist/fonts/', root), new URL('katex/fonts/', dist), { recursive: true });
 
 await copyFile(new URL('../../LICENSE', root), new URL('LICENSE', root));
 const notices = [];

@@ -27,7 +27,9 @@ let nodes = baseSchema.spec.nodes.update('list_item', {
   }
 });
 // markを最外側に置き、==***赤太字***==を維持する。
-const marks = baseSchema.spec.marks.addToStart('highlight', { toDOM: () => ['mark', 0] }).append({ strike: { toDOM: () => ['s', 0] } });
+const marks = baseSchema.spec.marks.addToStart('highlight', {
+  toDOM: () => ['mark', 0], parseDOM: [{ tag: 'mark' }]
+}).append({ strike: { toDOM: () => ['s', 0], parseDOM: [{ tag: 's' }, { tag: 'del' }] } });
 const schema = new Schema({ nodes, marks });
 const md = new MarkdownIt({ html: true }).use(callouts).use(mark);
 

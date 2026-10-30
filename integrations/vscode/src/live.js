@@ -7,11 +7,28 @@ import { toggleMark, setBlockType } from 'prosemirror-commands';
 import { undo, redo } from 'prosemirror-history';
 import { schema, parseDocument, serializeDocument } from './live-model.cjs';
 import icons from '../dist/icons.json';
+import { renderPreview } from './preview.js';
 
 const api = acquireVsCodeApi();
 const status = document.getElementById('status');
 const notice = document.getElementById('notice');
 let view, model, version, baseText = '', currentText = '', sentText = null, nextAction = null, blocked = false, recovered = false;
+let mode = 'live';
+const editorElement = document.getElementById('editor');
+const previewElement = document.getElementById('preview');
+
+function switchMode(next) {
+  mode = next;
+  editorElement.hidden = mode !== 'live';
+  previewElement.hidden = mode !== 'preview';
+  document.querySelectorAll('[data-mode]').forEach(button => {
+    button.classList.toggle('selected', button.dataset.mode === mode);
+    button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
+  });
+  document.querySelectorAll('[data-command]').forEach(button => { button.hidden = mode !== 'live'; });
+  if (mode === 'preview') previewElement.innerHTML = renderPreview(currentText);
+  else view?.focus();
+}
 
 function sendPending() {
   if (blocked || sentText !== null || !view || view.composing) return;
@@ -24,7 +41,8 @@ function sendPending() {
   }
 }
 function action(name) {
-  if (blocked && ['source', 'preview'].includes(name)) return api.postMessage({ type: 'action', action: name });
+  if (['live', 'preview'].includes(name)) return switchMode(name);
+  if (blocked && name === 'source') return api.postMessage({ type: 'action', action: name });
   nextAction = name; sendPending();
 }
 function fail(message) {
@@ -122,6 +140,7 @@ function load(text, nextVersion, dirty) {
     }
   });
   status.textContent = dirty ? '未保存' : '保存済み';
+  if (mode === 'preview') previewElement.innerHTML = renderPreview(currentText);
 }
 window.addEventListener('message', event => {
   const message = event.data;
@@ -151,6 +170,7 @@ const commands = {
 document.getElementById('toolbar').addEventListener('mousedown', event => { if (event.target.closest('[data-command]')) event.preventDefault(); });
 document.getElementById('toolbar').addEventListener('click', event => {
   const button = event.target.closest('button');
+  if (button?.dataset.mode) switchMode(button.dataset.mode);
   if (button?.dataset.action) action(button.dataset.action);
   if (button?.dataset.command && view) { commands[button.dataset.command]?.(view.state, view.dispatch, view); view.focus(); }
 });

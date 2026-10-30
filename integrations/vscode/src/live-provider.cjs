@@ -4,10 +4,12 @@ const { minimalEdit } = require('./text-edit.cjs');
 function registerLiveEditor(context, vscode) {
   const viewType = 'swak.markdown.live';
   const panels = new Map();
+  const initialModes = new Map();
   const activeUri = candidate => candidate?.scheme ? candidate : vscode.window.tabGroups.activeTabGroup.activeTab?.input?.uri || vscode.window.activeTextEditor?.document.uri;
   const open = async (uri, mode) => {
     if (!uri) return;
-    const type = mode === 'preview' ? 'vscode.markdown.preview.editor' : mode === 'source' ? 'default' : viewType;
+    const type = mode === 'source' ? 'default' : viewType;
+    if (type === viewType) initialModes.set(uri.toString(), mode);
     await vscode.commands.executeCommand('vscode.openWith', uri, type, vscode.ViewColumn.Active);
   };
   const provider = {
@@ -27,7 +29,13 @@ function registerLiveEditor(context, vscode) {
       });
       const messages = panel.webview.onDidReceiveMessage(message => {
         queue = queue.then(async () => {
-          if (message?.type === 'ready') return send();
+          if (message?.type === 'ready') {
+            await send();
+            const mode = initialModes.get(document.uri.toString());
+            initialModes.delete(document.uri.toString());
+            if (mode) await panel.webview.postMessage({ type: 'switch', mode });
+            return;
+          }
           if (message?.type === 'recover' && typeof message.text === 'string') {
             const recovery = await vscode.workspace.openTextDocument({ content: message.text, language: 'markdown' });
             await vscode.window.showTextDocument(recovery, vscode.ViewColumn.Beside);
@@ -53,7 +61,7 @@ function registerLiveEditor(context, vscode) {
           }
           if (message?.type === 'action') {
             if (message.action === 'save' && !await document.save()) throw new Error('文書を保存できませんでした。編集内容は未保存のまま保持しています。');
-            if (['preview', 'source', 'live'].includes(message.action)) await open(document.uri, message.action);
+            if (message.action === 'source') await open(document.uri, 'source');
           }
         }).catch(error => {
           panel.webview.postMessage({ type: 'error', message: error.message });
@@ -72,12 +80,13 @@ function registerLiveEditor(context, vscode) {
         <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${panel.webview.cspSource} https: data:; style-src ${panel.webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}'; font-src ${panel.webview.cspSource};">
         <base href="${escape(panel.webview.asWebviewUri(directory).toString())}/">
         <link rel="stylesheet" href="${uri('dist/live-vendor.css')}">
+        <link rel="stylesheet" href="${uri('dist/katex/katex.min.css')}">
         <link rel="stylesheet" href="${uri('dist/theme.css')}">
         <link rel="stylesheet" href="${uri('media/preview.css')}">
         <link rel="stylesheet" href="${uri('media/live.css')}">
         </head><body class="vscode-body">
         <nav id="toolbar" aria-label="Swak Markdown"><div class="modes">
-          <span class="selected">ライブプレビュー</span><button data-action="preview">プレビュー</button><button data-action="source">ソース</button>
+          <button data-mode="live" class="selected" aria-pressed="true">ライブプレビュー</button><button data-mode="preview" aria-pressed="false">プレビュー</button><button data-action="source">ソース</button>
         </div><div class="formatting">
           <button data-command="undo" title="元に戻す (⌘Z)">↶</button><button data-command="redo" title="やり直す (⇧⌘Z)">↷</button>
           <button data-command="bold" title="太字 (⌘B)"><b>B</b></button><button data-command="italic" title="斜体 (⌘I)"><i>I</i></button>
@@ -85,7 +94,7 @@ function registerLiveEditor(context, vscode) {
           <button data-command="h1">H1</button><button data-command="h2">H2</button><button data-command="h3">H3</button>
           <button data-command="paragraph" title="本文">本文</button><button data-action="save" title="保存 (⌘S)">保存</button>
           <span id="status" role="status">読み込み中</span>
-        </div></nav><div id="notice" role="alert" hidden></div><main id="editor"></main>
+        </div></nav><div id="notice" role="alert" hidden></div><main id="editor"></main><main id="preview" class="markdown-body" hidden></main>
         <script nonce="${nonce}" src="${uri('dist/live.js')}"></script></body></html>`;
     }
   };
@@ -94,7 +103,7 @@ function registerLiveEditor(context, vscode) {
     context.subscriptions.push(vscode.commands.registerCommand(command, async candidate => {
       const uri = activeUri(candidate);
       const panel = uri && panels.get(uri.toString());
-      if (panel?.active) return panel.webview.postMessage({ type: 'switch', mode });
+      if (panel) { panel.reveal(vscode.ViewColumn.Active); return panel.webview.postMessage({ type: 'switch', mode }); }
       await open(uri, mode);
     }));
   }

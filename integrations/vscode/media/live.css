@@ -8,6 +8,8 @@ body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family)
 #status { padding-inline: 8px; font-size: 11px; color: var(--vscode-descriptionForeground); }
 #notice { padding: 12px; color: var(--vscode-errorForeground); }
 #editor { padding: 24px 32px 40vh; }
+#preview { padding: 24px 32px 40vh; box-sizing: content-box; }
+body.vscode-body [hidden] { display: none !important; }
 .ProseMirror { outline: none; min-height: 50vh; white-space: pre-wrap; overflow-wrap: break-word; }
 .ProseMirror :is(h1, h2, h3) { scroll-margin-top: 85px; }
 .ProseMirror h3 { margin-bottom: 6px !important; }
@@ -25,4 +27,4 @@ body.vscode-body { margin: 0; padding: 0; font-family: var(--vscode-font-family)
 .swak-fold { border: 0; background: transparent; color: inherit; cursor: pointer; font-size: 18px; padding: 0 4px; }
 .ProseMirror .swak-raw-block { white-space: pre-wrap; }
 .ProseMirror [hidden] { display: none !important; }
-@media (max-width: 480px) { #editor { padding: 16px 16px 40vh; } }
+@media (max-width: 480px) { #editor, #preview { padding: 16px 16px 40vh; } }

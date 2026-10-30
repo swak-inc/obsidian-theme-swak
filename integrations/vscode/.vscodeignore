@@ -6,3 +6,5 @@ package-lock.json
 dist/*.vsix
 dist/icons.json
 .gitignore
+playwright.config.cjs
+test-results/**
