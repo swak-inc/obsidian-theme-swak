@@ -1,10 +1,18 @@
 {
   "name": "swak-markdown-preview",
   "displayName": "Swak Markdown",
-  "description": "Swakの装飾でライブプレビュー編集・プレビュー閲覧を切り替えます。",
+  "description": "Edit Markdown in a styled live preview, switch to reading view, and navigate with a resizable outline. / Markdownを整った表示で編集・閲覧。",
   "version": "0.3.6",
   "publisher": "swak-inc",
   "license": "MIT",
+  "icon": "media/marketplace/icon.png",
+  "homepage": "https://github.com/swak-inc/obsidian-theme-swak/tree/main/integrations/vscode",
+  "bugs": {
+    "url": "https://github.com/swak-inc/obsidian-theme-swak/issues"
+  },
+  "keywords": ["markdown", "live preview", "wysiwyg", "outline", "callout", "obsidian", "swak"],
+  "galleryBanner": { "color": "#0B3D63", "theme": "dark" },
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -88,8 +96,10 @@
     "build": "node scripts/build.mjs",
     "test": "node --test test/*.test.cjs",
     "vscode:prepublish": "npm run build",
-    "package": "vsce package --no-dependencies --out dist/swak-markdown-preview.vsix",
-    "test:browser": "playwright test"
+    "package": "vsce package --no-dependencies --baseContentUrl https://github.com/swak-inc/obsidian-theme-swak/blob/main/integrations/vscode --baseImagesUrl https://raw.githubusercontent.com/swak-inc/obsidian-theme-swak/main/integrations/vscode --out dist/swak-markdown-preview.vsix",
+    "test:browser": "playwright test",
+    "test:editor": "npm run build && node scripts/test-editor.cjs",
+    "screenshots": "npm run build && node scripts/capture-screenshots.cjs"
   },
   "dependencies": {
     "@vscode/markdown-it-katex": "1.1.2",
