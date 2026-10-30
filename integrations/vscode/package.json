@@ -1,0 +1,51 @@
+{
+  "name": "swak-markdown-preview",
+  "displayName": "Swak Markdown Preview",
+  "description": "Obsidian Swakの装飾をAntigravity IDE / VS CodeのMarkdownプレビューで表示します。",
+  "version": "0.1.0",
+  "publisher": "swak-inc",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swak-inc/obsidian-theme-swak.git",
+    "directory": "integrations/vscode"
+  },
+  "main": "./dist/extension.cjs",
+  "activationEvents": [],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "markdown.markdownItPlugins": true,
+    "markdown.previewStyles": [
+      "./dist/theme.css",
+      "./media/preview.css"
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.cjs",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package --no-dependencies --out dist/swak-markdown-preview.vsix"
+  },
+  "dependencies": {
+    "markdown-it-mark": "4.0.0",
+    "markdown-it-obsidian-callouts": "0.3.5",
+    "markdown-it-task-lists": "2.1.1"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "4.1.0",
+    "esbuild": "0.28.2",
+    "lucide-static": "1.64.0",
+    "markdown-it": "14.3.3"
+  }
+}

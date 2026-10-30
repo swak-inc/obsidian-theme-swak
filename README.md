@@ -68,6 +68,10 @@ For red bold with highlighting, place `***` inside `==`. Use `[!tip]` for recomm
 
 ## Complete UI Reference / 全装飾の表示例
 
+For Antigravity IDE / VS Code, the local [Swak Markdown Preview extension](./integrations/vscode/README.md) brings the same styling to the built-in Markdown preview.
+
+Antigravity IDE / VS Codeでは、ローカルの[Swak Markdown Preview拡張](./integrations/vscode/README.md)で標準Markdownプレビューに同じ装飾を適用できます。
+
 Seven bilingual reference sheets show the theme in Light and Dark appearances. [Open the complete sample Markdown](./ui-reference.md).
 
 装飾を7分類に分け、ライト・ダーク両方の実画面を英日併記で掲載しています。[全装飾のサンプルMarkdown](./ui-reference.md)。
