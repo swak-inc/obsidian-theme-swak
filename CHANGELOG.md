@@ -1,5 +1,9 @@
 # Changelog / 変更履歴
 
+## Unreleased / 未公開
+
+- Match heading spacing after callouts to paragraphs and tables in Reading and Live Preview, while keeping the opening H1 and adjacent headings compact. / 閲覧・ライブプレビューでコールアウト後の見出し余白を本文・テーブル後と統一し、冒頭のH1と見出しが連続する箇所はコンパクトに保ちます。
+
 ## 1.1.0
 
 - Add a readable property card with clear labels, body-size values, and full descriptions in both Reading and Live Preview. / 閲覧・編集のプロパティを読みやすいカード表示に統一し、項目名を明確に、値を本文サイズで、長い説明文を省略せず表示します。

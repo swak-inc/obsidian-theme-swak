@@ -74,7 +74,8 @@ Screen spacing separates chapters without adding manual blank lines. In PDF expo
 | Properties → body | One paragraph (14px at 14px body text) | Properties follow Obsidian's export behavior |
 | First body H1 | Spacing depends on the preceding block | No forced page break |
 | Paragraph/list → next H1 | 64px | New page |
-| Callout → next H1 | Compact | New page |
+| Callout → next H1 | 64px (opening H1 stays compact) | New page |
+| Callout → H2–H6 | Same as after a paragraph or table | Keep with following content where possible |
 | Consecutive headings | Compact | Keep headings with following content where possible |
 
 See [1.1.0 release notes](./CHANGELOG.md).
@@ -88,7 +89,8 @@ See [1.1.0 release notes](./CHANGELOG.md).
 | プロパティ→本文 | 段落1つ分（本文14px時は14px） | プロパティの出力はObsidian標準に従う |
 | 本文の最初のH1 | 直前の要素に応じた間隔 | 強制改ページなし |
 | 本文の段落・リスト→次の章のH1 | 64px | 改ページ |
-| コールアウト→次の章のH1 | 通常の間隔 | 改ページ |
+| コールアウト→次の章のH1 | 64px（冒頭のH1は通常の間隔） | 改ページ |
+| コールアウト→H2〜H6 | 本文・テーブル後と同じ間隔 | 後続の内容と同じページになるよう調整 |
 | 見出しが続く箇所 | 通常の間隔 | 見出しがページ末尾に孤立しないよう調整 |
 
 [1.1.0の変更履歴](./CHANGELOG.md)。
