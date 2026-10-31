@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/swak-inc/obsidian-theme-swak?style=flat-square&color=0E3A60)](https://github.com/swak-inc/obsidian-theme-swak/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-![Swak Theme Preview](./screenshot.png?v=6)
+![Swak Theme Preview](./screenshot.png?v=1.1.0)
 
 ---
 
@@ -28,7 +28,9 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **Refined Callouts**: Subtle fills and clear borders distinguish supporting information. Tip uses the Lucide `lightbulb` icon; Danger uses `circle-alert`.
 - **Disciplined Business Tables**: Engineered specifically for cost comparisons, matrix evaluations, and project timelines with balanced padding and slate-gray headers.
 - **Structured Lists and Quotes**: Bullets and numbers match the body text color. Compact nesting and neutral quote lines keep the spacing balanced around markers and text.
-- **Reading and Live Preview Alignment**: Heading spacing, lists, quotes, callouts, and embedded elements stay closely aligned while switching between reading and editing.
+- **Reading and Live Preview Alignment**: Heading spacing, lists, quotes, callouts, and embedded elements stay closely aligned while switching between reading and editing. Properties use one paragraph of space before the body in both modes; hidden YAML does not add a chapter gap.
+- **Readable Properties**: A subtle card, distinct labels, and body-size values make metadata easy to scan. Long descriptions remain fully visible.
+- **Chapter Spacing and PDF Pagination**: H1 headings following body content use a 64px top gap. In PDF export, the first body H1 does not force a page break; the second and subsequent body H1 headings start a new page. The optional filename title does not count as a body H1.
 - **Light and Dark Support**: Calibrated colors for both appearances.
 
 **日本語**
@@ -38,47 +40,138 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **洗練されたコールアウト**: 淡い背景と明確な枠線で補足情報を整理。推奨（Tip）はLucideの `lightbulb`、危険（Danger）は `circle-alert` を使用します。
 - **実務志向の表組み**: 比較表や進捗表の可読性を極限まで高めたテーブルスタイリング。
 - **整然としたリストと引用**: 箇条書きの点・数字を本文色に統一。コンパクトなネストとグレー系の引用線で、記号・線と文字の余白を整えます。
-- **閲覧・編集の見え方を統一**: リーディングビューとライブプレビューの見出し、リスト、引用、コールアウト、埋め込み要素の余白を近づけています。
+- **閲覧・編集の見え方を統一**: リーディングビューとライブプレビューの見出し、リスト、引用、コールアウト、埋め込み要素の余白を近づけています。プロパティから本文までは両モードとも段落1つ分の間隔とし、非表示のYAMLに章間余白を加えません。
+- **読みやすいプロパティ**: 控えめな背景と枠、強弱をつけた項目名、本文サイズの値で情報を整理します。長い説明文も省略せず表示します。
+- **章の区切りとPDF改ページ**: 本文からH1へ移る上余白は64px。PDFでは本文の最初のH1で強制改ページせず、2つ目以降のH1で改ページします。ファイル名タイトルは本文のH1として数えません。
 - **ライト/ダーク両対応**: どちらの環境でも一貫した可読性とトーンを維持します。
+
+### Properties / プロパティ
+
+**English**
+
+Properties use the same card in Reading and Live Preview. Labels and values are aligned, descriptions wrap without truncation, and the native property controls remain available. [Open the sample](./ui-properties.md).
+
+**日本語**
+
+プロパティは閲覧・編集とも同じカード表示です。項目名と値を揃え、説明文は省略せず折り返します。Obsidian標準の値編集・項目追加・折りたたみをそのまま使用できます。[プロパティのサンプル](./ui-properties.md)。
+
+#### Light / ライト
+
+![Properties — Light](./assets/ui-properties-light.png)
+
+#### Dark / ダーク
+
+![Properties — Dark](./assets/ui-properties-dark.png)
+
+### Chapter Spacing & PDF Export / 章の余白とPDFエクスポート
+
+**English**
+
+Screen spacing separates chapters without adding manual blank lines. In PDF export, the first body H1 does not force a page break; the second and subsequent body H1 headings start a new page. This rule applies regardless of what appears before the first H1. The optional filename title does not count as a body H1. Use Obsidian's **Export to PDF** command. [Open the meeting sample](./ui-meeting.md).
+
+| Location | Screen | PDF export |
+| --- | --- | --- |
+| Properties → body | One paragraph (14px at 14px body text) | Properties follow Obsidian's export behavior |
+| First body H1 | Spacing depends on the preceding block | No forced page break |
+| Paragraph/list → next H1 | 64px | New page |
+| Callout → next H1 | Compact | New page |
+| Consecutive headings | Compact | Keep headings with following content where possible |
+
+See [1.1.0 release notes](./CHANGELOG.md).
+
+**日本語**
+
+画面では手動の空行を増やさず、テーマの余白で章を区切ります。PDFでは**本文の最初のH1で強制改ページせず、2つ目以降のH1で改ページ**します。最初のH1より前に何が書かれているかには依存しません。ファイル名タイトルは本文のH1として数えません。Obsidianの「PDFにエクスポート」を使用してください。[会議資料のサンプル](./ui-meeting.md)。
+
+| 箇所 | 画面 | PDF |
+| --- | --- | --- |
+| プロパティ→本文 | 段落1つ分（本文14px時は14px） | プロパティの出力はObsidian標準に従う |
+| 本文の最初のH1 | 直前の要素に応じた間隔 | 強制改ページなし |
+| 本文の段落・リスト→次の章のH1 | 64px | 改ページ |
+| コールアウト→次の章のH1 | 通常の間隔 | 改ページ |
+| 見出しが続く箇所 | 通常の間隔 | 見出しがページ末尾に孤立しないよう調整 |
+
+[1.1.0の変更履歴](./CHANGELOG.md)。
+
+#### Light / ライト
+
+![Meeting chapter spacing — Light](./assets/ui-meeting-light.png)
+
+#### Dark / ダーク
+
+![Meeting chapter spacing — Dark](./assets/ui-meeting-dark.png)
 
 ### Formatting Examples / 記法例
 
-| Appearance / 表示 | Markdown |
+**English**
+
+| Appearance | Markdown |
 | :--- | :--- |
-| Bold / 太字 | `**text**` |
-| Red bold / 赤太字 | `***text***` |
-| Highlight / ハイライト | `==text==` |
-| Red bold with highlight / 赤太字＋ハイライト | `==***text***==` |
+| Bold | `**text**` |
+| Red bold | `***text***` |
+| Highlight | `==text==` |
+| Red bold with highlight | `==***text***==` |
 
 For red bold with highlighting, place `***` inside `==`. Use `[!tip]` for recommendations and `[!danger]` for risks or prohibited actions.
+
+**日本語**
+
+| 表示 | Markdown |
+| :--- | :--- |
+| 太字 | `**text**` |
+| 赤太字 | `***text***` |
+| ハイライト | `==text==` |
+| 赤太字＋ハイライト | `==***text***==` |
 
 赤太字＋ハイライトは、`==` の内側に `***` を置きます。推奨事項は `[!tip]`、危険・禁止事項は `[!danger]` を使用します。
 
 ### Callout Colors / コールアウトの配色
 
-| Color / 色 | Purpose / 用途 | Types / 種類 |
+**English**
+
+| Color | Purpose | Types |
 | :--- | :--- | :--- |
-| Blue / 青 | Information and routine work / 情報・通常の作業 | `note`, `abstract`, `info`, `example`, `todo` |
-| Green / 緑 | Recommendations and success / 推奨・成功 | `tip`, `success` |
-| Yellow / 黄色 | Caution and review / 注意・確認 | `question`, `warning` |
-| Red / 赤 | Danger, failure, and bugs / 危険・失敗・不具合 | `danger`, `failure`, `bug` |
-| Gray / グレー | Quotations / 引用 | `quote` |
+| Blue | Information and routine work | `note`, `abstract`, `info`, `example`, `todo` |
+| Green | Recommendations and success | `tip`, `success` |
+| Yellow | Caution and review | `question`, `warning` |
+| Red | Danger, failure, and bugs | `danger`, `failure`, `bug` |
+| Gray | Quotations | `quote` |
+
+**日本語**
+
+| 色 | 用途 | 種類 |
+| :--- | :--- | :--- |
+| 青 | 情報・通常の作業 | `note`, `abstract`, `info`, `example`, `todo` |
+| 緑 | 推奨・成功 | `tip`, `success` |
+| 黄色 | 注意・確認 | `question`, `warning` |
+| 赤 | 危険・失敗・不具合 | `danger`, `failure`, `bug` |
+| グレー | 引用 | `quote` |
 
 ---
 
 ## Complete UI Reference / 全装飾の表示例
 
+**English**
+
 For Antigravity IDE / VS Code, the separately maintained [Swak Markdown extension](https://github.com/swak-inc/vscode-swak-markdown) adds an editable live preview and styles the built-in Markdown preview.
 
-Antigravity IDE / VS Codeでは、専用リポジトリで管理する[Swak Markdown拡張](https://github.com/swak-inc/vscode-swak-markdown)で、直接編集できるライブプレビューと標準プレビューの両方にSwakの装飾を適用できます。
-
 Seven bilingual reference sheets show the theme in Light and Dark appearances. [Open the complete sample Markdown](./ui-reference.md).
+
+**日本語**
+
+Antigravity IDE / VS Codeでは、専用リポジトリで管理する[Swak Markdown拡張](https://github.com/swak-inc/vscode-swak-markdown)で、直接編集できるライブプレビューと標準プレビューの両方にSwakの装飾を適用できます。
 
 装飾を7分類に分け、ライト・ダーク両方の実画面を英日併記で掲載しています。[全装飾のサンプルMarkdown](./ui-reference.md)。
 
 ### 1. Typography / 文字装飾
 
-H1–H6, bold, italic, red bold, highlights, strikethroughs, links, footnotes, and horizontal rules. / H1–H6、太字、斜体、赤太字、ハイライト、打ち消し線、リンク、脚注、水平線。
+**English**
+
+H1–H6, bold, italic, red bold, highlights, strikethroughs, links, footnotes, and horizontal rules.
+
+**日本語**
+
+H1–H6、太字、斜体、赤太字、ハイライト、打ち消し線、リンク、脚注、水平線。
 
 #### Light / ライト
 
@@ -90,7 +183,13 @@ H1–H6, bold, italic, red bold, highlights, strikethroughs, links, footnotes, a
 
 ### 2. Structure / 表・リスト・引用
 
-Left-, center-, and right-aligned tables, bullets, numbered lists, checkboxes, and three-level quotes. / 表の左・中央・右揃え、箇条書き、番号リスト、チェックボックス、3階層の引用。
+**English**
+
+Left-, center-, and right-aligned tables, bullets, numbered lists, checkboxes, and three-level quotes.
+
+**日本語**
+
+表の左・中央・右揃え、箇条書き、番号リスト、チェックボックス、3階層の引用。
 
 #### Light / ライト
 
@@ -102,7 +201,13 @@ Left-, center-, and right-aligned tables, bullets, numbered lists, checkboxes, a
 
 ### 3. Callouts 1 / 情報・要約・推奨
 
-Types / 種類: `note`, `abstract`, `info`, `example`, `todo`, `tip`, `success`.
+**English**
+
+Types: `note`, `abstract`, `info`, `example`, `todo`, `tip`, `success`.
+
+**日本語**
+
+種類: `note`, `abstract`, `info`, `example`, `todo`, `tip`, `success`。
 
 #### Light / ライト
 
@@ -114,7 +219,13 @@ Types / 種類: `note`, `abstract`, `info`, `example`, `todo`, `tip`, `success`.
 
 ### 4. Callouts 2 / 注意・危険・参照
 
-Types / 種類: `question`, `warning`, `failure`, `danger`, `bug`, `quote`.
+**English**
+
+Types: `question`, `warning`, `failure`, `danger`, `bug`, `quote`.
+
+**日本語**
+
+種類: `question`, `warning`, `failure`, `danger`, `bug`, `quote`。
 
 #### Light / ライト
 
@@ -126,7 +237,13 @@ Types / 種類: `question`, `warning`, `failure`, `danger`, `bug`, `quote`.
 
 ### 5. Callout Layout / 折りたたみ・ネスト
 
-Title-only, initially expanded or collapsed, and three-level nested callouts, plus callouts with tasks. / 本文なし、初期展開・折りたたみ、3階層のネスト、コールアウト内のタスク。
+**English**
+
+Title-only, initially expanded or collapsed, and three-level nested callouts, plus callouts with tasks.
+
+**日本語**
+
+本文なし、初期展開・折りたたみ、3階層のネスト、コールアウト内のタスク。
 
 #### Light / ライト
 
@@ -138,7 +255,13 @@ Title-only, initially expanded or collapsed, and three-level nested callouts, pl
 
 ### 6. Code & Diagrams / コード・図・数式
 
-JavaScript, Mermaid flowcharts, inline math, and block math. / JavaScript、Mermaidフロー図、インライン数式、ブロック数式。
+**English**
+
+JavaScript, Mermaid flowcharts, inline math, and block math.
+
+**日本語**
+
+JavaScript、Mermaidフロー図、インライン数式、ブロック数式。
 
 #### Light / ライト
 
@@ -150,7 +273,13 @@ JavaScript, Mermaid flowcharts, inline math, and block math. / JavaScript、Merm
 
 ### 7. Details & Embeds / 折りたたみ・埋め込み
 
-Collapsed and expanded HTML details, images, and an [embedded note sample](./ui-embed-sample.md). / HTML detailsの開閉、画像、[ノートの埋め込みサンプル](./ui-embed-sample.md)。
+**English**
+
+Collapsed and expanded HTML details, images, and an [embedded note sample](./ui-embed-sample.md).
+
+**日本語**
+
+HTML detailsの開閉、画像、[ノートの埋め込みサンプル](./ui-embed-sample.md)。
 
 #### Light / ライト
 
@@ -166,43 +295,61 @@ Collapsed and expanded HTML details, images, and an [embedded note sample](./ui-
 
 ### 1. English UI Showcase / 英語UIサンプル集
 
-**English**: An implementation plan with a comparison table, recommendation and danger callouts, task lists, and nested lists and quotes. [Open the English sample](./ui-sample-en.md).
+**English**
 
-**日本語**: 導入計画の英語サンプルです。比較表、推奨・危険のコールアウト、タスクリスト、階層リスト、引用ネストを確認できます。[英語サンプルのMarkdown](./ui-sample-en.md)。
+An implementation plan with a comparison table, recommendation and danger callouts, task lists, and nested lists and quotes. [Open the English sample](./ui-sample-en.md).
 
-#### Light Mode / ライトモード
+**日本語**
 
-![English UI Sample - Light Mode](./assets/ui-sample-en-light.png?v=5)
+導入計画の英語サンプルです。比較表、推奨・危険のコールアウト、タスクリスト、階層リスト、引用ネストを確認できます。[英語サンプルのMarkdown](./ui-sample-en.md)。
 
-#### Dark Mode / ダークモード
+#### Light / ライト
 
-![English UI Sample - Dark Mode](./assets/ui-sample-en-dark.png?v=5)
+![English UI Sample - Light Mode](./assets/ui-sample-en-light.png?v=1.1.0)
+
+#### Dark / ダーク
+
+![English UI Sample - Dark Mode](./assets/ui-sample-en-dark.png?v=1.1.0)
 
 ---
 
 ### 2. Japanese UI Showcase / 日本語UIサンプル集
 
-**English**: The same document structure in Japanese, including red bold highlighting and compact nesting. [Open the Japanese sample](./ui-sample-ja.md).
+**English**
 
-**日本語**: 同じ構成の日本語サンプルです。赤太字＋ハイライト、リストと引用のネストも確認できます。[日本語サンプルのMarkdown](./ui-sample-ja.md)。
+The same document structure in Japanese, including red bold highlighting and compact nesting. [Open the Japanese sample](./ui-sample-ja.md).
 
-#### Light Mode / ライトモード
+**日本語**
 
-![Japanese UI Sample - Light Mode](./assets/ui-sample-ja-light.png?v=5)
+同じ構成の日本語サンプルです。赤太字＋ハイライト、リストと引用のネストも確認できます。[日本語サンプルのMarkdown](./ui-sample-ja.md)。
 
-#### Dark Mode / ダークモード
+#### Light / ライト
 
-![Japanese UI Sample - Dark Mode](./assets/ui-sample-ja-dark.png?v=5)
+![Japanese UI Sample - Light Mode](./assets/ui-sample-ja-light.png?v=1.1.0)
+
+#### Dark / ダーク
+
+![Japanese UI Sample - Dark Mode](./assets/ui-sample-ja-dark.png?v=1.1.0)
 
 ### 3. Live Preview / ライブプレビュー
 
-**English**: The Japanese sample in Live Preview. Spacing is aligned with Reading view; Markdown markers on the active line and some editor-specific elements can still look different.
+**English**
 
-**日本語**: 日本語サンプルをライブプレビューで表示した例です。閲覧時に近い余白で編集できます。カーソル行のMarkdown記号や、一部のエディター固有要素には表示差が残ります。
+The Japanese sample in Live Preview. Spacing is aligned with Reading view; Markdown markers on the active line and some editor-specific elements can still look different.
 
-![Japanese UI Sample - Live Preview](./assets/ui-sample-ja-live-preview.png?v=5)
+**日本語**
+
+日本語サンプルをライブプレビューで表示した例です。閲覧時に近い余白で編集できます。カーソル行のMarkdown記号や、一部のエディター固有要素には表示差が残ります。
+
+![Japanese UI Sample - Live Preview](./assets/ui-sample-ja-live-preview.png?v=1.1.0)
+
+### Screenshot Details / 撮影情報
+
+**English**
 
 Screenshots captured in Obsidian 1.14.5 at 14px body text, using the sample notes and UI reference above.
+
+**日本語**
 
 上記の業務文書・UIリファレンスをObsidian 1.14.5・本文14pxで表示し、実画面を撮影しています。
 
@@ -248,10 +395,14 @@ Swak is available in the [Obsidian Community directory](https://community.obsidi
 
 ## About Swak Inc. / 株式会社Swak
 
+**English**
+
 **Swak Inc.**
 
 - Web: [https://swak.jp](https://swak.jp)
 - Business: E-commerce Operations / Digital Marketing / Software Development / AI Solutions / Consulting
+
+**日本語**
 
 **株式会社Swak**
 
@@ -262,10 +413,14 @@ Swak is available in the [Obsidian Community directory](https://community.obsidi
 
 ## License / ライセンス
 
+**English**
+
 Licensed under the [MIT License](./LICENSE).
 
-MITライセンスに基づき配布されています。
-
 The embedded `square-text` icon is from [Lucide](https://lucide.dev/icons/square-text) under the ISC License; its notice is included in `theme.css`.
+
+**日本語**
+
+MITライセンスに基づき配布されています。
 
 埋め込みの `square-text` アイコンはLucideのISCライセンスに基づき使用し、ライセンス表記を `theme.css` に含めています。
