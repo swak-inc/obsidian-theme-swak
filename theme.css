@@ -37,6 +37,16 @@
   color: #93C5FD !important;
 }
 
+/* プロパティから本文への間隔は段落1つ分。編集側の冒頭空行もここに含める。 */
+.markdown-preview-view .metadata-container,
+.markdown-source-view.mod-cm6.is-live-preview .metadata-container {
+  margin-block-end: var(--p-spacing);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .metadata-container:has(~ .cm-contentContainer > .cm-content > [contenteditable="false"]:empty:first-child + .cm-line > br:only-child) {
+  margin-block-end: 0;
+}
+
 /* 1. 大見出しアクセント（H1: ネイビー帯見出し専用） */
 body {
   --swak-h1-spacing: 64px;
@@ -818,8 +828,9 @@ body {
   padding-block-start: max(0px, calc(var(--heading-spacing) - 2 * var(--p-spacing)));
 }
 
-/* 文頭も入力可能な空行の高さを保ち、選択状態によって高さを変えない */
-.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:first-child:has(> br:only-child):has(+ .HyperMD-header) {
+/* 文頭も入力可能な空行の高さを保つ。非表示YAMLの空ウィジェットは本文に数えない。 */
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > .cm-line:first-child:has(> br:only-child):has(+ .HyperMD-header),
+.markdown-source-view.mod-cm6.is-live-preview .cm-content > [contenteditable="false"]:empty:first-child + .cm-line:has(> br:only-child):has(+ .HyperMD-header) {
   padding-block-start: 0;
 }
 

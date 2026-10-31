@@ -28,7 +28,7 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **Refined Callouts**: Subtle fills and clear borders distinguish supporting information. Tip uses the Lucide `lightbulb` icon; Danger uses `circle-alert`.
 - **Disciplined Business Tables**: Engineered specifically for cost comparisons, matrix evaluations, and project timelines with balanced padding and slate-gray headers.
 - **Structured Lists and Quotes**: Bullets and numbers match the body text color. Compact nesting and neutral quote lines keep the spacing balanced around markers and text.
-- **Reading and Live Preview Alignment**: Heading spacing, lists, quotes, callouts, and embedded elements stay closely aligned while switching between reading and editing.
+- **Reading and Live Preview Alignment**: Heading spacing, lists, quotes, callouts, and embedded elements stay closely aligned while switching between reading and editing. Properties use one paragraph of space before the body in both modes; hidden YAML does not add a chapter gap.
 - **Chapter Spacing and PDF Pagination**: H1 headings following body content use a 64px top gap. PDF export starts a new page at each subsequent body H1, keeping introductory goals and the first H1 together. The optional filename title does not trigger a page break.
 - **Light and Dark Support**: Calibrated colors for both appearances.
 
@@ -39,7 +39,7 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **洗練されたコールアウト**: 淡い背景と明確な枠線で補足情報を整理。推奨（Tip）はLucideの `lightbulb`、危険（Danger）は `circle-alert` を使用します。
 - **実務志向の表組み**: 比較表や進捗表の可読性を極限まで高めたテーブルスタイリング。
 - **整然としたリストと引用**: 箇条書きの点・数字を本文色に統一。コンパクトなネストとグレー系の引用線で、記号・線と文字の余白を整えます。
-- **閲覧・編集の見え方を統一**: リーディングビューとライブプレビューの見出し、リスト、引用、コールアウト、埋め込み要素の余白を近づけています。
+- **閲覧・編集の見え方を統一**: リーディングビューとライブプレビューの見出し、リスト、引用、コールアウト、埋め込み要素の余白を近づけています。プロパティから本文までは両モードとも段落1つ分の間隔とし、非表示のYAMLに章間余白を加えません。
 - **章の区切りとPDF改ページ**: 本文からH1へ移る上余白は64px。PDFでは本文の2つ目以降のH1から改ページし、冒頭のゴールと最初のH1（アジェンダ）は同じページに保ちます。ファイル名タイトルは改ページの対象外です。
 - **ライト/ダーク両対応**: どちらの環境でも一貫した可読性とトーンを維持します。
 
