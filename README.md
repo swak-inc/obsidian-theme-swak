@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/swak-inc/obsidian-theme-swak?style=flat-square&color=0E3A60)](https://github.com/swak-inc/obsidian-theme-swak/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-![Swak Theme Preview](./screenshot.png?v=6)
+![Swak Theme Preview](./screenshot.png?v=1.1.0)
 
 ---
 
@@ -44,6 +44,35 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **読みやすいプロパティ**: 控えめな背景と枠、強弱をつけた項目名、本文サイズの値で情報を整理します。長い説明文も省略せず表示します。
 - **章の区切りとPDF改ページ**: 本文からH1へ移る上余白は64px。PDFでは本文の2つ目以降のH1から改ページし、冒頭のゴールと最初のH1（アジェンダ）は同じページに保ちます。ファイル名タイトルは改ページの対象外です。
 - **ライト/ダーク両対応**: どちらの環境でも一貫した可読性とトーンを維持します。
+
+### Properties / プロパティ
+
+Properties use the same card in Reading and Live Preview. Labels and values are aligned, descriptions wrap without truncation, and the native property controls remain available. [Open the sample](./ui-properties.md).
+
+プロパティは閲覧・編集とも同じカード表示です。項目名と値を揃え、説明文は省略せず折り返します。Obsidian標準の値編集・項目追加・折りたたみをそのまま使用できます。[プロパティのサンプル](./ui-properties.md)。
+
+![Properties — Light](./assets/ui-properties-light.png)
+
+![Properties — Dark](./assets/ui-properties-dark.png)
+
+### Chapter Spacing & PDF Export / 章の余白とPDFエクスポート
+
+Screen spacing separates chapters without adding manual blank lines. In PDF export, each subsequent body H1 starts a new page; the opening goals and first H1 stay together. The optional filename title is excluded. Use Obsidian's **Export to PDF** command. [Open the meeting sample](./ui-meeting.md).
+
+画面では手動の空行を増やさず、テーマの余白で章を区切ります。PDFでは**本文の2つ目以降のH1で改ページ**し、「本日のゴール」と最初のH1（アジェンダ）は同じページに置きます。ファイル名タイトルは改ページ対象外です。Obsidianの「PDFにエクスポート」を使用してください。[会議資料のサンプル](./ui-meeting.md)。
+
+| Location / 箇所 | Screen / 画面 | PDF export / PDF |
+| --- | --- | --- |
+| Properties → body / プロパティ→本文 | One paragraph (14px at 14px body text) / 段落1つ分（本文14px時は14px） | Properties follow Obsidian's export behavior / プロパティの出力はObsidian標準に従う |
+| Goals → first H1 / ゴール→最初のH1 | Compact / 通常の間隔 | Same page / 同じページ |
+| Body → next H1 / 本文→次の章のH1 | 64px | New page / 改ページ |
+| Consecutive headings / 見出しが続く箇所 | Compact / 通常の間隔 | Keep headings with following content where possible / 見出しがページ末尾に孤立しないよう調整 |
+
+![Meeting chapter spacing — Light](./assets/ui-meeting-light.png)
+
+![Meeting chapter spacing — Dark](./assets/ui-meeting-dark.png)
+
+See [1.1.0 release notes](./CHANGELOG.md). / [1.1.0の変更履歴](./CHANGELOG.md)。
 
 ### Formatting Examples / 記法例
 
@@ -176,11 +205,11 @@ Collapsed and expanded HTML details, images, and an [embedded note sample](./ui-
 
 #### Light Mode / ライトモード
 
-![English UI Sample - Light Mode](./assets/ui-sample-en-light.png?v=5)
+![English UI Sample - Light Mode](./assets/ui-sample-en-light.png?v=1.1.0)
 
 #### Dark Mode / ダークモード
 
-![English UI Sample - Dark Mode](./assets/ui-sample-en-dark.png?v=5)
+![English UI Sample - Dark Mode](./assets/ui-sample-en-dark.png?v=1.1.0)
 
 ---
 
@@ -192,11 +221,11 @@ Collapsed and expanded HTML details, images, and an [embedded note sample](./ui-
 
 #### Light Mode / ライトモード
 
-![Japanese UI Sample - Light Mode](./assets/ui-sample-ja-light.png?v=5)
+![Japanese UI Sample - Light Mode](./assets/ui-sample-ja-light.png?v=1.1.0)
 
 #### Dark Mode / ダークモード
 
-![Japanese UI Sample - Dark Mode](./assets/ui-sample-ja-dark.png?v=5)
+![Japanese UI Sample - Dark Mode](./assets/ui-sample-ja-dark.png?v=1.1.0)
 
 ### 3. Live Preview / ライブプレビュー
 
@@ -204,7 +233,7 @@ Collapsed and expanded HTML details, images, and an [embedded note sample](./ui-
 
 **日本語**: 日本語サンプルをライブプレビューで表示した例です。閲覧時に近い余白で編集できます。カーソル行のMarkdown記号や、一部のエディター固有要素には表示差が残ります。
 
-![Japanese UI Sample - Live Preview](./assets/ui-sample-ja-live-preview.png?v=5)
+![Japanese UI Sample - Live Preview](./assets/ui-sample-ja-live-preview.png?v=1.1.0)
 
 Screenshots captured in Obsidian 1.14.5 at 14px body text, using the sample notes and UI reference above.
 
