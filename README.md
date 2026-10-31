@@ -65,7 +65,8 @@ Screen spacing separates chapters without adding manual blank lines. In PDF expo
 | --- | --- | --- |
 | Properties → body / プロパティ→本文 | One paragraph (14px at 14px body text) / 段落1つ分（本文14px時は14px） | Properties follow Obsidian's export behavior / プロパティの出力はObsidian標準に従う |
 | Goals → first H1 / ゴール→最初のH1 | Compact / 通常の間隔 | Same page / 同じページ |
-| Body → next H1 / 本文→次の章のH1 | 64px | New page / 改ページ |
+| Paragraph/list → next H1 / 本文の段落・リスト→次の章のH1 | 64px | New page / 改ページ |
+| Callout → next H1 / コールアウト→次の章のH1 | Compact / 通常の間隔 | New page / 改ページ |
 | Consecutive headings / 見出しが続く箇所 | Compact / 通常の間隔 | Keep headings with following content where possible / 見出しがページ末尾に孤立しないよう調整 |
 
 ![Meeting chapter spacing — Light](./assets/ui-meeting-light.png)
