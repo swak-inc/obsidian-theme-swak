@@ -30,7 +30,7 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **Structured Lists and Quotes**: Bullets and numbers match the body text color. Compact nesting and neutral quote lines keep the spacing balanced around markers and text.
 - **Reading and Live Preview Alignment**: Heading spacing, lists, quotes, callouts, and embedded elements stay closely aligned while switching between reading and editing. Properties use one paragraph of space before the body in both modes; hidden YAML does not add a chapter gap.
 - **Readable Properties**: A subtle card, distinct labels, and body-size values make metadata easy to scan. Long descriptions remain fully visible.
-- **Chapter Spacing and PDF Pagination**: H1 headings following body content use a 64px top gap. PDF export starts a new page at each subsequent body H1, keeping introductory goals and the first H1 together. The optional filename title does not trigger a page break.
+- **Chapter Spacing and PDF Pagination**: H1 headings following body content use a 64px top gap. In PDF export, the first body H1 does not force a page break; the second and subsequent body H1 headings start a new page. The optional filename title does not count as a body H1.
 - **Light and Dark Support**: Calibrated colors for both appearances.
 
 **日本語**
@@ -42,7 +42,7 @@ Swakは、「シンプルイズベスト」に徹底してこだわった、ビ�
 - **整然としたリストと引用**: 箇条書きの点・数字を本文色に統一。コンパクトなネストとグレー系の引用線で、記号・線と文字の余白を整えます。
 - **閲覧・編集の見え方を統一**: リーディングビューとライブプレビューの見出し、リスト、引用、コールアウト、埋め込み要素の余白を近づけています。プロパティから本文までは両モードとも段落1つ分の間隔とし、非表示のYAMLに章間余白を加えません。
 - **読みやすいプロパティ**: 控えめな背景と枠、強弱をつけた項目名、本文サイズの値で情報を整理します。長い説明文も省略せず表示します。
-- **章の区切りとPDF改ページ**: 本文からH1へ移る上余白は64px。PDFでは本文の2つ目以降のH1から改ページし、冒頭のゴールと最初のH1（アジェンダ）は同じページに保ちます。ファイル名タイトルは改ページの対象外です。
+- **章の区切りとPDF改ページ**: 本文からH1へ移る上余白は64px。PDFでは本文の最初のH1で強制改ページせず、2つ目以降のH1で改ページします。ファイル名タイトルは本文のH1として数えません。
 - **ライト/ダーク両対応**: どちらの環境でも一貫した可読性とトーンを維持します。
 
 ### Properties / プロパティ
@@ -57,14 +57,14 @@ Properties use the same card in Reading and Live Preview. Labels and values are 
 
 ### Chapter Spacing & PDF Export / 章の余白とPDFエクスポート
 
-Screen spacing separates chapters without adding manual blank lines. In PDF export, each subsequent body H1 starts a new page; the opening goals and first H1 stay together. The optional filename title is excluded. Use Obsidian's **Export to PDF** command. [Open the meeting sample](./ui-meeting.md).
+Screen spacing separates chapters without adding manual blank lines. In PDF export, the first body H1 does not force a page break; the second and subsequent body H1 headings start a new page. This rule applies regardless of what appears before the first H1. The optional filename title does not count as a body H1. Use Obsidian's **Export to PDF** command. [Open the meeting sample](./ui-meeting.md).
 
-画面では手動の空行を増やさず、テーマの余白で章を区切ります。PDFでは**本文の2つ目以降のH1で改ページ**し、「本日のゴール」と最初のH1（アジェンダ）は同じページに置きます。ファイル名タイトルは改ページ対象外です。Obsidianの「PDFにエクスポート」を使用してください。[会議資料のサンプル](./ui-meeting.md)。
+画面では手動の空行を増やさず、テーマの余白で章を区切ります。PDFでは**本文の最初のH1で強制改ページせず、2つ目以降のH1で改ページ**します。最初のH1より前に何が書かれているかには依存しません。ファイル名タイトルは本文のH1として数えません。Obsidianの「PDFにエクスポート」を使用してください。[会議資料のサンプル](./ui-meeting.md)。
 
 | Location / 箇所 | Screen / 画面 | PDF export / PDF |
 | --- | --- | --- |
 | Properties → body / プロパティ→本文 | One paragraph (14px at 14px body text) / 段落1つ分（本文14px時は14px） | Properties follow Obsidian's export behavior / プロパティの出力はObsidian標準に従う |
-| Goals → first H1 / ゴール→最初のH1 | Compact / 通常の間隔 | Same page / 同じページ |
+| First body H1 / 本文の最初のH1 | Spacing depends on the preceding block / 直前の要素に応じた間隔 | No forced page break / 強制改ページなし |
 | Paragraph/list → next H1 / 本文の段落・リスト→次の章のH1 | 64px | New page / 改ページ |
 | Callout → next H1 / コールアウト→次の章のH1 | Compact / 通常の間隔 | New page / 改ページ |
 | Consecutive headings / 見出しが続く箇所 | Compact / 通常の間隔 | Keep headings with following content where possible / 見出しがページ末尾に孤立しないよう調整 |
