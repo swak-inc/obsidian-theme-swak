@@ -133,9 +133,10 @@ body {
   margin-top: var(--heading-spacing);
 }
 
-/* 冒頭のコールアウトから最初のH1へは、章間の余白を追加しない。 */
+/* 冒頭のコールアウトから最初のH1へは、章間の余白を追加しない。
+   Obsidianは画面外の章をDOMから外すため、冒頭の判定には上方の省略高さも使う。 */
 .markdown-rendered > .callout + h1:first-of-type,
-.markdown-rendered .markdown-preview-sizer > div:has(> .callout) + .el-h1:not(.el-h1 ~ .el-h1) > h1 {
+.markdown-rendered .markdown-preview-sizer:has(> .markdown-preview-pusher[style*="margin-bottom: 0px"]) > div:has(> .callout) + .el-h1:not(.el-h1 ~ .el-h1) > h1 {
   margin-top: var(--p-spacing);
 }
 
@@ -698,6 +699,11 @@ body {
 }
 
 /* 8. コードブロック＆インラインコード視認性向上（ライト＆ダーク完全同期） */
+
+/* Obsidian標準の li > pre { margin: 0 } を文書の段落間隔へ戻す。 */
+.markdown-preview-view.markdown-rendered li > pre {
+  margin-block: var(--p-spacing);
+}
 
 /* 【ライトモード】：洗練されたスレートライト */
 .theme-light {
