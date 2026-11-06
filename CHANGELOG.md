@@ -1,5 +1,10 @@
 # Changelog / 変更履歴
 
+## 1.1.2
+
+- Add breathing room to body text, paragraphs, lists, heading banners, tables, callouts, and properties in Reading and Live Preview. / 閲覧・ライブプレビューの本文行間、段落、リスト、見出し帯、表、コールアウト、プロパティの余白を少し広げました。
+- Restore normal spacing after H3 headings and remove the matching negative-spacing corrections from Live Preview. / H3直後を通常の段落間隔へ戻し、ライブプレビュー側の詰める補正も整理しました。
+
 ## 1.1.1
 
 - Match heading spacing after callouts to paragraphs and tables in Reading and Live Preview, while keeping the opening H1 and adjacent headings compact. / 閲覧・ライブプレビューでコールアウト後の見出し余白を本文・テーブル後と統一し、冒頭のH1と見出しが連続する箇所はコンパクトに保ちます。
