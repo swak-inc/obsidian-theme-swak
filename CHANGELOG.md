@@ -1,5 +1,20 @@
 # Changelog / 変更履歴
 
+## 1.1.4
+
+- Restore compact spacing after H3 headings without negative margins or table overlap. / H3直後をコンパクトに戻し、負の余白を使わず表の重なりを防ぎました。
+- Add 6px before H2 headings in Reading and Live Preview, including adjacent headings. / 閲覧・ライブプレビューでH2の前を6px広げ、見出しが続く箇所にも反映しました。
+
+## 1.1.3
+
+- Add paragraph spacing around fenced code blocks inside lists in Reading view. / 閲覧モードのリスト内コードブロックに上下の段落間隔を確保しました。
+- Preserve chapter spacing after callouts when earlier headings are outside Obsidian's rendered viewport. / 長いノートで前の見出しが描画対象外になっても、コールアウト後の章間余白を維持します。
+
+## 1.1.2
+
+- Add breathing room to body text, paragraphs, lists, heading banners, tables, callouts, and properties in Reading and Live Preview. / 閲覧・ライブプレビューの本文行間、段落、リスト、見出し帯、表、コールアウト、プロパティの余白を少し広げました。
+- Restore normal spacing after H3 headings and remove the matching negative-spacing corrections from Live Preview. / H3直後を通常の段落間隔へ戻し、ライブプレビュー側の詰める補正も整理しました。
+
 ## 1.1.1
 
 - Match heading spacing after callouts to paragraphs and tables in Reading and Live Preview, while keeping the opening H1 and adjacent headings compact. / 閲覧・ライブプレビューでコールアウト後の見出し余白を本文・テーブル後と統一し、冒頭のH1と見出しが連続する箇所はコンパクトに保ちます。
