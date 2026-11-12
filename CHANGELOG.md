@@ -5,6 +5,7 @@
 - Separate consecutive tables with paragraph spacing in Reading view and the VS Code preview. / 表が続く箇所に段落と同じ余白を入れました（閲覧モード・VS Codeプレビュー）。
 - Keep the compact spacing after H3 headings in PDF export. / PDF書き出しでもH3直後の余白をコンパクトに保ちます。
 - Apply the same compact spacing after H4 headings in Reading, Live Preview, and PDF. / H4直後もH3と同じコンパクトな余白にしました（閲覧・ライブプレビュー・PDF）。
+- Use a solid yellow marker with navy text when Obsidian flashes a heading after an outline or link jump, so H1 text stays readable on its navy banner. / 目次やリンクから見出しへ移動した直後の強調表示を、全階層の見出しで不透明な黄色のマーカーと濃紺の文字にそろえました。H1の文字が濃紺の帯に沈んで読めなくなる問題も解消します。
 
 ## 1.1.4
 
