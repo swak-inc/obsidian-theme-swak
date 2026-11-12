@@ -78,7 +78,7 @@ Screen spacing separates chapters without adding manual blank lines. In PDF expo
 | Callout → H2–H6 | Same as after a paragraph or table | Keep with following content where possible |
 | Consecutive headings | Compact | Keep headings with following content where possible |
 
-See [1.1.4 release notes](./CHANGELOG.md).
+See [1.1.5 release notes](./CHANGELOG.md).
 
 **日本語**
 
@@ -93,7 +93,7 @@ See [1.1.4 release notes](./CHANGELOG.md).
 | コールアウト→H2〜H6 | 本文・テーブル後と同じ間隔 | 後続の内容と同じページになるよう調整 |
 | 見出しが続く箇所 | 通常の間隔 | 見出しがページ末尾に孤立しないよう調整 |
 
-[1.1.4の変更履歴](./CHANGELOG.md)。
+[1.1.5の変更履歴](./CHANGELOG.md)。
 
 #### Light / ライト
 

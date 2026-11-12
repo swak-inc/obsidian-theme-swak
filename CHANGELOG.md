@@ -1,5 +1,11 @@
 # Changelog / 変更履歴
 
+## 1.1.5
+
+- Separate consecutive tables with paragraph spacing in Reading view and the VS Code preview. / 表が続く箇所に段落と同じ余白を入れました（閲覧モード・VS Codeプレビュー）。
+- Keep the compact spacing after H3 headings in PDF export. / PDF書き出しでもH3直後の余白をコンパクトに保ちます。
+- Apply the same compact spacing after H4 headings in Reading, Live Preview, and PDF. / H4直後もH3と同じコンパクトな余白にしました（閲覧・ライブプレビュー・PDF）。
+
 ## 1.1.4
 
 - Restore compact spacing after H3 headings without negative margins or table overlap. / H3直後をコンパクトに戻し、負の余白を使わず表の重なりを防ぎました。
